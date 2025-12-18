@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 // La URL base de tu API de Express
-const API_URL = 'http://localhost:3001/api/observaciones';
+const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 /**
  * Componente Tarjeta de Cumplimiento Global

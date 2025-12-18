@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-const API_URL = 'http://localhost:3001/api/observaciones';
+const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 function MomentComplianceChart() {
     const [chartData, setChartData] = useState(null);
