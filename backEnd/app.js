@@ -27,11 +27,12 @@ mongoose.connect(mongoURI)
 // 4. Middlewares Básicos
 
 // Configuración de CORS
+
 const corsOptions = {
-    origin: 'http://localhost:5173',  
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true
+    origin: 'https://hdmpombo.onrender.com',  
+    optionsSuccesStatus: 200
 };
+
 
 app.use(cors(corsOptions));
 app.use(express.json()); // Habilita la lectura de cuerpos JSON en peticiones (req.body)
