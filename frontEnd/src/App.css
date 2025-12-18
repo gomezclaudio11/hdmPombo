@@ -1,0 +1,88 @@
+/* Estilos Básicos para la Tarjeta de Cumplimiento */
+
+.compliance-card {
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    color: white; /* Color de texto por defecto */
+}
+
+.compliance-high {
+    background-color: #28a745; /* Verde para buen cumplimiento */
+}
+
+.compliance-medium {
+    background-color: #ffc107; /* Amarillo para cumplimiento medio */
+    color: #333; /* Texto oscuro para contraste */
+}
+
+.compliance-low {
+    background-color: #dc3545; /* Rojo para bajo cumplimiento */
+}
+
+.percentage-display {
+    font-size: 4em;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.subtitle {
+    font-size: 1em;
+    opacity: 0.8;
+}
+
+/* Estilos de Layout General */
+.dashboard-layout {
+    background-color: #f4f7f6;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.header {
+    text-align: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.placeholder-chart {
+    border: 1px dashed #ccc;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 20px;
+}
+
+.chart-container {
+  min-height: 450px;
+  width: 100%;
+}
+
+.placeholder-card {
+  background: white;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+}
+
+.full-width-chart {
+  width: 100%;
+  margin-top: 20px;
+}
+
