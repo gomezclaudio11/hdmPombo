@@ -335,3 +335,56 @@ exports.getComplianceByShift = async (req, res) => {
         res.status(500).json({ message: 'Error al procesar los turnos', error: error.message });
     }
 };
+
+//Endpoint dinamico
+exports.getStaffComplianceBySector = async (req, res) => {
+    try {
+        // Capturamos el nombre desde la URL
+        const { nombreSector } = req.params; 
+
+        const stats = await Observacion.aggregate([
+            {
+                // Usamos la variable dinámica para filtrar
+                $match: { 
+                    "Sector en el que realizo la observación": nombreSector 
+                }
+            },
+            {
+                $group: {
+                    _id: "$Personal al que observo",
+                    totalObservaciones: { $sum: 1 },
+                    accionesCorrectas: {
+                        $sum: {
+                            $cond: [
+                                { 
+                                    $and: [
+                                        { $ne: ["$Accion que realizo", "Ninguna"] },
+                                        { $ne: ["$Accion que realizo", null] }
+                                    ]
+                                }, 
+                                1, 0
+                            ]
+                        }
+                    }
+                }
+            },
+            {
+                $project: {
+                    personal: "$_id",
+                    totalObservaciones: 1,
+                    porcentajeCumplimiento: {
+                        $multiply: [
+                            { $cond: [{ $eq: ["$totalObservaciones", 0] }, 0, { $divide: ["$accionesCorrectas", "$totalObservaciones"] }] },
+                            100
+                        ]
+                    }
+                }
+            },
+            { $sort: { porcentajeCumplimiento: -1 } }
+        ]);
+
+        res.json(stats);
+    } catch (error) {
+        res.status(500).json({ message: 'Error al procesar datos del sector' });
+    }
+};

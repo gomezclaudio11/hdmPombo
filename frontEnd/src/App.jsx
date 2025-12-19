@@ -3,6 +3,8 @@ import GlobalComplianceCard from './components/GlobalComplianceCard';
 import SectorComplianceChart from './components/SectorComplianceChart';
 import ProfessionalRankingChart from './components/ProfessionalRankingChart';
 import MomentComplianceChart from './components/MomentComplianceChart';
+import SectorDetailDashboard from './components/SectorDetailDashboard';
+
 function App() {
   return (
     <div className="dashboard-layout">
@@ -31,6 +33,10 @@ function App() {
           <div className="chart-container">
             <MomentComplianceChart />
           </div>
+        </section>
+
+        <section className="full-width-chart">
+          <SectorDetailDashboard />
         </section>
         </main>
       

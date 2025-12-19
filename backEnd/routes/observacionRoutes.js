@@ -10,5 +10,7 @@ router.get("/stats-professional", observacionController.getComplianceByProfessio
 router.get("/stats-moment", observacionController.getComplianceByMoment)
 router.get('/stats-techniques', observacionController.getTechniqueUsage);
 router.get('/stats-shift', observacionController.getComplianceByShift);
+router.get('/stats-sector-detalle/:nombreSector', observacionController.getStaffComplianceBySector);
 
 module.exports = router;
+
