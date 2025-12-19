@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 // --- Configuración ---
-const csvFilePath = 'HDM POMBO Noviembre 2025 (respuestas) - Respuestas de formulario 1.csv';
+const csvFilePath = 'hdmNoviembreFinal.csv';
 const jsonFilePath = 'observaciones_higiene.json';
 const delimiter = ','; // El delimitador en tu archivo CSV
 

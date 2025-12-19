@@ -1,4 +1,4 @@
-Marca temporal,Nombre del observador,Sector en el que realizo la observación,Turno,Personal al que observo,Momento que observa,Accion que realizo,Momento que observa2,Acción que realizo2
+Marca temporal,Nombre del observador,Sector en el que realizo la observación,Turno,Personal al que observo,Momento que observa,Accion que realizo,Momento que observa2 ,Acción que realizo2 
 3/11/2025 2:21:42,Abigail Aruquipa Ramos ,7mo  piso,Noche A,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
 3/11/2025 2:22:08,Abigail Aruquipa Ramos ,7mo  piso,Noche A,Enfermeria,Antes de realizar técnica Aseptica,Lavado con agua y jabón (solo en guardia),Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
 3/11/2025 2:22:37,Abigail Aruquipa Ramos ,7mo  piso,Noche A,Enfermeria,Despues de tocar entorno,Higiene con solución alcoholica,Despues de tocar entorno.,Lavado con agua y jabón (solo en guardia)
@@ -643,6 +643,29 @@ Marca temporal,Nombre del observador,Sector en el que realizo la observación,Tu
 6/12/2025 5:39:06,Jonathan Santiago ,6to piso,Noche A,Camillero,Despues de tocar entorno,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
 6/12/2025 5:40:19,Jonathan Santiago ,6to piso,Noche A,Mucama,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
 6/12/2025 5:47:47,Jonathan Santiago ,6to piso,Noche A,Kinesiologo,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 17:19:44,Jonathan Santiago ,6to piso,Noche A,Tec.Laboratorio,Antes de realizar técnica Aseptica,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+9/12/2025 22:44:00,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 22:58:58,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Antes de realizar técnica Aseptica,Ninguna,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+9/12/2025 23:00:13,Jonathan Santiago ,6to piso,Noche B,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
+9/12/2025 23:00:54,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Despues de tocar al paciente,Ninguna,Despues de tocar al paciente,Ninguna
+9/12/2025 23:01:25,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Despues de tocar entorno,Ninguna,Despues de tocar al paciente,Ninguna
+9/12/2025 23:01:59,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Antes de realizar técnica Aseptica,Ninguna,Antes de rrealizar técnica Aseptica.,Ninguna
+9/12/2025 23:02:53,Jonathan Santiago ,6to piso,Noche A,Medico Traumatologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Antes de tocar al paciente,Ninguna
+9/12/2025 23:03:36,Jonathan Santiago ,6to piso,Noche A,Medico Traumatologo (Staff y Residente),Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 23:04:09,Jonathan Santiago ,6to piso,Noche A,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 23:04:41,Jonathan Santiago ,6to piso,Noche A,Residente de Clinica,Despues de tocar entorno,Ninguna,Despues de tocar al paciente,Ninguna
+10/12/2025 12:14:15,Jonathan Santiago ,6to piso,Noche A,Medico Clinico,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 12:14:52,Jonathan Santiago ,6to piso,Noche A,Medico Clinico,Despues de tocar al paciente,Ninguna,Despues de tocar al paciente,Ninguna
+10/12/2025 12:15:48,Jonathan Santiago ,6to piso,Noche A,Medico Clinico,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
+10/12/2025 12:16:22,Jonathan Santiago ,6to piso,Noche A,Medico Clinico,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 12:17:31,Jonathan Santiago ,6to piso,Noche A,Medico Clinico,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 12:18:35,Jonathan Santiago ,6to piso,Noche B,Medico Clinico,Antes de tocar al paciente,Ninguna,Antes de tocar al paciente,Ninguna
+10/12/2025 12:19:32,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Antes de realizar técnica Aseptica,Lavado con agua y jabón (solo en guardia),Antes de rrealizar técnica Aseptica.,Lavado con agua y jabón (solo en guardia)
+10/12/2025 12:20:12,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
+10/12/2025 12:20:54,Jonathan Santiago ,6to piso,Noche A,Kinesiologo,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 12:21:24,Jonathan Santiago ,6to piso,Noche A,Kinesiologo,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
+10/12/2025 12:21:56,Jonathan Santiago ,6to piso,Noche A,Camillero,Antes de tocar al paciente,Ninguna,Antes de tocar al paciente,Ninguna
+10/12/2025 13:45:14,Jonathan Santiago ,6to piso,Noche A,Enfermeria,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
 3/11/2025 10:32:11,Lorena Gasis,UTI ADULTO,Mañana,Aux. de alimentación,Despues de tocar entorno,Ninguna,,
 1/12/2025 13:30:02,Lorena Gasis,UTI ADULTO,Tarde,Tec.Laboratorio,Después de tocar fluidos,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
 3/11/2025 10:31:02,Lorena Gasis ,UTI ADULTO,Mañana,Medico Urologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Higiene con solución alcoholica
@@ -910,9 +933,15 @@ Marca temporal,Nombre del observador,Sector en el que realizo la observación,Tu
 26/11/2025 6:19:26,María Eugenia Ontiveros ,UTI ADULTO,Noche B,Tec.Laboratorio,Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Higiene con solución alcoholica
 26/11/2025 6:20:20,María Eugenia Ontiveros ,UTI ADULTO,Noche B,Tec.Laboratorio,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Higiene con solución alcoholica
 30/11/2025 21:59:43,Matías ,UTI ADULTO,Mañana,Residente de Clinica,Después de tocar fluidos,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:14:04,Matías Cordoba,UTI ADULTO,Mañana,Medico Cirujano (Staff y Residente),Después de tocar fluidos,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
 26/11/2025 9:23:31,Matias Cordoba ,UTI ADULTO,Mañana,Enfermeria,Antes de realizar técnica Aseptica,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
 26/11/2025 9:25:33,Matias Cordoba ,UTI ADULTO,Mañana,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
 30/11/2025 21:56:10,Matias Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Antes de realizar técnica Aseptica,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
+10/12/2025 20:44:15,Matias Cordoba ,UTI ADULTO,Mañana,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+10/12/2025 20:44:50,Matias Cordoba ,UTI ADULTO,Mañana,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 21:24:55,Matias Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:11:22,Matias Cordoba ,UTI ADULTO,Mañana,Medico Traumatologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:12:13,Matias Cordoba ,UTI ADULTO,Mañana,Medico Traumatologo (Staff y Residente),Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
 26/11/2025 9:23:06,Matias Córdoba ,UTI ADULTO,Mañana,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
 26/11/2025 9:24:29,Matias Córdoba ,UTI ADULTO,Mañana,Enfermeria,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
 26/11/2025 9:23:50,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
@@ -941,6 +970,50 @@ Marca temporal,Nombre del observador,Sector en el que realizo la observación,Tu
 5/12/2025 21:16:29,Matías Cordoba ,UTI ADULTO,Mañana,Camillero,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
 5/12/2025 21:17:00,Matías Cordoba ,UTI ADULTO,Mañana,Camillero,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Ninguna
 5/12/2025 21:18:20,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 20:42:04,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+10/12/2025 20:42:26,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
+10/12/2025 20:42:50,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
+10/12/2025 20:43:17,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+10/12/2025 20:43:44,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+10/12/2025 20:45:21,Matías Cordoba ,UTI ADULTO,Mañana,Medico de UTI adultos,Despues de tocar al paciente,Ninguna,Despues de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 20:45:47,Matías Cordoba ,UTI ADULTO,Mañana,Kinesiologo,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 20:46:19,Matías Cordoba ,UTI ADULTO,Mañana,Kinesiologo,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 20:46:41,Matías Cordoba ,UTI ADULTO,Mañana,Kinesiologo,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+10/12/2025 20:47:10,Matías Cordoba ,UTI ADULTO,Mañana,Kinesiologo,Antes de realizar técnica Aseptica,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+10/12/2025 20:47:35,Matías Cordoba ,UTI ADULTO,Mañana,Camillero,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 20:47:57,Matías Cordoba ,UTI ADULTO,Mañana,Camillero,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 20:49:46,Matías Cordoba ,UTI ADULTO,Mañana,Imagenes (ecografista y RX),Antes de tocar al paciente,Ninguna,Despues de tocar entorno.,Higiene con solución alcoholica
+10/12/2025 20:50:37,Matías Cordoba ,UTI ADULTO,Mañana,Tec. Hemodialisis,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+10/12/2025 21:25:21,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
+10/12/2025 21:25:44,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Después de tocar fluidos,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+10/12/2025 21:26:03,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
+10/12/2025 21:26:24,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
+10/12/2025 21:26:46,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Antes de tocar al paciente,Ninguna,Despues de tocar entorno.,Higiene con solución alcoholica
+11/12/2025 8:11:44,Matías Cordoba ,UTI ADULTO,Mañana,Medico Traumatologo (Staff y Residente),Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:12:34,Matías Cordoba ,UTI ADULTO,Mañana,Medico Traumatologo (Staff y Residente),Despues de tocar entorno,Ninguna,Antes de tocar al paciente,Ninguna
+11/12/2025 8:12:57,Matías Cordoba ,UTI ADULTO,Mañana,Medico Traumatologo (Staff y Residente),Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+11/12/2025 8:13:18,Matías Cordoba ,UTI ADULTO,Mañana,Medico Cirujano (Staff y Residente),Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+11/12/2025 8:13:39,Matías Cordoba ,UTI ADULTO,Mañana,Medico Cirujano (Staff y Residente),Despues de tocar al paciente,Ninguna,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:14:23,Matías Cordoba ,UTI ADULTO,Mañana,Medico Cirujano (Staff y Residente),Despues de tocar entorno,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
+11/12/2025 8:14:52,Matías Cordoba ,UTI ADULTO,Mañana,Kinesiologo,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:15:13,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+11/12/2025 8:15:33,Matías Cordoba ,UTI ADULTO,Mañana,Tec. Hemoterapia,Despues de tocar al paciente,Ninguna,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:15:56,Matías Cordoba ,UTI ADULTO,Mañana,Tec.Laboratorio,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Ninguna
+11/12/2025 8:16:23,Matías Cordoba ,UTI ADULTO,Mañana,Tec. Hemodialisis,Despues de tocar al paciente,Ninguna,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:16:45,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Antes de realizar técnica Aseptica,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:18:00,Matías Cordoba ,UTI ADULTO,Mañana,Medico de UTI adultos,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
+11/12/2025 8:18:22,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+11/12/2025 8:18:43,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Después de tocar fluidos,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+11/12/2025 8:19:06,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Después de tocar fluidos,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+11/12/2025 8:19:30,Matías Cordoba ,UTI ADULTO,Mañana,Medico de UTI adultos,Despues de tocar entorno,Ninguna,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:19:50,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Despues de tocar entorno,Higiene con solución alcoholica,Antes de tocar al paciente,Ninguna
+11/12/2025 8:20:11,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+11/12/2025 8:20:31,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Despues de tocar entorno,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:20:51,Matías Cordoba ,UTI ADULTO,Mañana,Residente de Clinica,Despues de tocar entorno,Ninguna,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:21:11,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Despues de tocar entorno,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
+11/12/2025 8:21:35,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+11/12/2025 8:21:55,Matías Cordoba ,UTI ADULTO,Mañana,Enfermeria,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+9/12/2025 16:33:37,Muruchi Daiana,5to piso,Mañana,Camillero,Antes de tocar al paciente,Ninguna,Antes de rrealizar técnica Aseptica.,Ninguna
 26/11/2025 13:15:48,Muruchi Daiana ,5to piso,Mañana,Residente de Clinica,Antes de tocar al paciente,Ninguna,Despues de tocar entorno.,Ninguna
 4/11/2025 6:12:05,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Traumatologo (Staff y Residente),Despues de tocar al paciente,Ninguna,Despues de tocar entorno.,Ninguna
 4/11/2025 6:13:12,Muruchi Rodriguez Daiana ,5to piso,Mañana,Enfermeria,Después de tocar fluidos,Lavado con agua y jabón (solo en guardia),Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
@@ -951,6 +1024,24 @@ Marca temporal,Nombre del observador,Sector en el que realizo la observación,Tu
 10/11/2025 10:58:05,Muruchi Rodriguez Daiana ,5to piso,Mañana,Residente de Clinica,Despues de tocar entorno,Lavado con agua y jabón (solo en guardia),Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
 10/11/2025 11:06:10,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Traumatologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar entorno.,Ninguna
 10/11/2025 11:08:39,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Clinico,Despues de tocar entorno,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 16:34:02,Muruchi Rodriguez Daiana ,5to piso,Mañana,Camillero,Después de tocar fluidos,Lavado con agua y jabón (solo en guardia),Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 16:34:29,Muruchi Rodriguez Daiana ,5to piso,Mañana,Camillero,Despues de tocar entorno,Higiene con solución alcoholica,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 16:34:58,Muruchi Rodriguez Daiana ,5to piso,Mañana,Imagenes (ecografista y RX),Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Higiene con solución alcoholica
+9/12/2025 16:35:27,Muruchi Rodriguez Daiana ,5to piso,Mañana,Imagenes (ecografista y RX),Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+9/12/2025 16:36:26,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Infectologo (Staff y Residente),Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),Antes de rrealizar técnica Aseptica.,Lavado con agua y jabón (solo en guardia)
+9/12/2025 16:36:58,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Infectologo (Staff y Residente),Después de tocar fluidos,Lavado con agua y jabón (solo en guardia),Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
+9/12/2025 16:37:29,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Nefrologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 16:37:54,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Nefrologo (Staff y Residente),Despues de tocar entorno,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
+9/12/2025 16:38:17,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Traumatologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Antes de rrealizar técnica Aseptica.,Ninguna
+9/12/2025 16:38:35,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Traumatologo (Staff y Residente),Después de tocar fluidos,Ninguna,Despues de tocar al paciente,
+9/12/2025 16:39:02,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Cirujano (Staff y Residente),Antes de tocar al paciente,Ninguna,Antes de rrealizar técnica Aseptica.,Ninguna
+9/12/2025 16:40:11,Muruchi Rodriguez Daiana ,5to piso,Mañana,Medico Cirujano (Staff y Residente),Después de tocar fluidos,Ninguna,Despues de tocar al paciente,Ninguna
+9/12/2025 16:40:40,Muruchi Rodriguez Daiana ,5to piso,Mañana,Tec. Hemoterapia,Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Higiene con solución alcoholica
+9/12/2025 16:41:06,Muruchi Rodriguez Daiana ,5to piso,Mañana,Enfermeria,Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 16:41:34,Muruchi Rodriguez Daiana ,5to piso,Mañana,Enfermeria,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar entorno.,Higiene con solución alcoholica
+9/12/2025 16:42:00,Muruchi Rodriguez Daiana ,5to piso,Mañana,Tec. Hemodialisis,Antes de tocar al paciente,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+9/12/2025 16:42:48,Muruchi Rodriguez Daiana ,5to piso,Mañana,Tec. Hemodialisis,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
+9/12/2025 16:43:13,Muruchi Rodriguez Daiana ,5to piso,Mañana,Tec. Hemodialisis,Despues de tocar entorno,Ninguna,Antes de tocar al paciente,Ninguna
 22/11/2025 23:16:28,Myrian Fernandez,4to piso,Noche B,Tec. Hemoterapia,Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Higiene con solución alcoholica
 22/11/2025 23:17:20,Myrian Fernandez,4to piso,Noche B,Tec. Hemoterapia,Despues de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
 22/11/2025 23:20:34,Myrian Fernandez,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),Antes de rrealizar técnica Aseptica.,Lavado con agua y jabón (solo en guardia)
@@ -1268,6 +1359,18 @@ Marca temporal,Nombre del observador,Sector en el que realizo la observación,Tu
 3/12/2025 14:24:06,Romina ,7mo  piso,SADOFE,Medico Traumatologo (Staff y Residente),Despues de tocar entorno,Ninguna,,
 3/12/2025 14:24:27,Romina ,7mo  piso,SADOFE,Medico Traumatologo (Staff y Residente),Después de tocar fluidos,Lavado con agua y jabón (solo en guardia),,
 3/12/2025 14:24:53,Romina ,7mo  piso,SADOFE,Medico Traumatologo (Staff y Residente),Despues de tocar al paciente,Higiene con solución alcoholica,,
+11/12/2025 0:17:18,Romina aztorga,7mo  piso,SADOFE,Medico Infectologo (Staff y Residente),Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),,
+11/12/2025 0:17:46,Romina aztorga,7mo  piso,SADOFE,Medico Infectologo (Staff y Residente),Despues de tocar entorno,Lavado con agua y jabón (solo en guardia),,
+11/12/2025 0:18:31,Romina aztorga,7mo  piso,SADOFE,Medico Nefrologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
+11/12/2025 0:19:13,Romina aztorga,7mo  piso,SADOFE,Medico Ginecologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+11/12/2025 0:19:44,Romina aztorga ,7mo  piso,SADOFE,Medico Oncologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Ninguna
+11/12/2025 0:53:55,Romina aztorga ,7mo  piso,SADOFE,Enfermeria,Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+11/12/2025 0:54:23,Romina aztorga ,7mo  piso,SADOFE,Enfermeria,Despues de tocar entorno,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+11/12/2025 0:54:51,Romina aztorga ,7mo  piso,SADOFE,Enfermeria,Despues de tocar al paciente,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Higiene con solución alcoholica
+11/12/2025 0:55:39,Romina aztorga ,7mo  piso,SADOFE,Enfermeria,Despues de tocar entorno,Higiene con solución alcoholica,Antes de rrealizar técnica Aseptica.,Ninguna
+11/12/2025 0:56:15,Romina aztorga ,7mo  piso,Mañana,Enfermeria,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+11/12/2025 0:57:17,Romina aztorga ,7mo  piso,SADOFE,Tec. Hemoterapia,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
+11/12/2025 0:57:46,Romina aztorga ,7mo  piso,SADOFE,Tec. Hemoterapia,Despues de tocar entorno,Higiene con solución alcoholica,Antes de tocar al paciente,Higiene con solución alcoholica
 31/10/2025 13:14:58,Rosalía Mancilla ,6to piso,Mañana,Medico Cirujano (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar entorno.,Ninguna
 3/11/2025 9:47:18,Rosalía Mancilla ,6to piso,Mañana,Kinesiologo,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
 3/11/2025 9:48:00,Rosalía Mancilla ,6to piso,Mañana,Medico Infectologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Higiene con solución alcoholica
@@ -1507,6 +1610,41 @@ Marca temporal,Nombre del observador,Sector en el que realizo la observación,Tu
 5/12/2025 8:00:34,Yanina Quispe ,4to piso,Noche B,Medico Traumatologo (Staff y Residente),Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
 5/12/2025 8:04:21,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
 5/12/2025 8:05:45,Yanina Quispe ,4to piso,Noche B,Tec. Hemoterapia,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
+9/12/2025 10:22:59,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 10:23:20,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 10:23:41,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 10:24:02,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Despues de tocar al paciente,Higiene con solución alcoholica,,
+9/12/2025 10:25:46,Yanina Quispe ,4to piso,Noche B,Mucama,Despues de tocar entorno,Higiene con solución alcoholica,,
+9/12/2025 10:28:03,Yanina Quispe ,4to piso,Noche B,Tec.Laboratorio,Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar fluidos,Higiene con solución alcoholica
+9/12/2025 12:05:00,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
+9/12/2025 12:07:59,Yanina Quispe ,4to piso,Noche B,Camillero,Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:09:45,Yanina Quispe ,4to piso,Noche B,Mucama,Después de tocar fluidos,Higiene con solución alcoholica,,
+9/12/2025 12:10:54,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:11:55,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de realizar técnica Aseptica,Lavado con agua y jabón (solo en guardia),Despues de tocar entorno.,
+9/12/2025 12:12:35,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 12:14:54,Yanina Quispe ,4to piso,Noche B,Medico Urologo (Staff y Residente),Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:17:39,Yanina Quispe ,4to piso,Noche B,Tec.Laboratorio,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia),,
+9/12/2025 12:18:02,Yanina Quispe ,4to piso,Noche B,Imagenes (ecografista y RX),Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:18:41,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Ninguna,Despues de tocar entorno.,Higiene con solución alcoholica
+9/12/2025 12:19:46,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de realizar técnica Aseptica,Lavado con agua y jabón (solo en guardia),,
+9/12/2025 12:20:47,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 12:25:43,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 12:26:13,Yanina Quispe ,4to piso,Noche B,Camillero,Despues de tocar al paciente,Higiene con solución alcoholica,,
+9/12/2025 12:30:51,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+9/12/2025 12:39:10,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Lavado con agua y jabón (solo en guardia)
+9/12/2025 12:41:47,Yanina Quispe ,4to piso,Noche B,Medico Ginecologo (Staff y Residente),Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:42:28,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:44:49,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Despues de tocar entorno,Higiene con solución alcoholica,,
+9/12/2025 12:48:26,Yanina Quispe ,4to piso,Noche B,Tec.Laboratorio,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Higiene con solución alcoholica
+9/12/2025 12:49:45,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+9/12/2025 12:50:15,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,
+9/12/2025 12:56:03,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 12:56:37,Yanina Quispe ,4to piso,Noche B,Tec.Laboratorio,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:56:58,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
+9/12/2025 12:57:20,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
+9/12/2025 12:58:26,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
+9/12/2025 12:58:47,Yanina Quispe ,4to piso,Noche B,Enfermeria,Despues de tocar entorno,Higiene con solución alcoholica,,
+9/12/2025 12:59:09,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar entorno.,Higiene con solución alcoholica
 1/12/2025 10:15:22,Yanina Roldan,7mo  piso,Mañana,Camillero,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Ninguna
 1/12/2025 10:16:19,Yanina Roldan,7mo  piso,Mañana,Aux. de alimentación,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
 1/12/2025 10:16:54,Yanina Roldan,7mo  piso,Mañana,Mucama,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
@@ -1552,9 +1690,3 @@ Marca temporal,Nombre del observador,Sector en el que realizo la observación,Tu
 2/12/2025 8:20:06,Yanina Roldán ,7mo  piso,Mañana,Aux. de alimentación,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
 3/12/2025 12:35:42,Yanina Roldán ,7mo  piso,Mañana,Aux. de alimentación,Despues de tocar entorno,Ninguna,Despues de tocar entorno.,Ninguna
 3/12/2025 12:38:10,Yanina Roldán ,7mo  piso,Mañana,Residente de Clinica,Antes de tocar al paciente,Ninguna,Despues de tocar al paciente,Ninguna
-9/12/2025 10:22:59,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
-9/12/2025 10:23:20,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Antes de tocar al paciente,Higiene con solución alcoholica,Despues de tocar al paciente,Higiene con solución alcoholica
-9/12/2025 10:23:41,Yanina Quispe ,4to piso,Noche B,Enfermeria,Antes de tocar al paciente,Ninguna,Despues de tocar fluidos,Lavado con agua y jabón (solo en guardia)
-9/12/2025 10:24:02,Yanina Quispe ,4to piso,Noche B,Residente de Clinica,Despues de tocar al paciente,Higiene con solución alcoholica,,
-9/12/2025 10:25:46,Yanina Quispe ,4to piso,Noche B,Mucama,Despues de tocar entorno,Higiene con solución alcoholica,,
-9/12/2025 10:28:03,Yanina Quispe ,4to piso,Noche B,Tec.Laboratorio,Antes de tocar al paciente,Lavado con agua y jabón (solo en guardia),Despues de tocar fluidos,Higiene con solución alcoholica

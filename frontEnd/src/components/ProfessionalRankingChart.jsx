@@ -71,6 +71,16 @@ const options = {
         beginAtZero: true,
         max: 100,
       },
+      y: {
+        ticks: {
+          autoSkip: false,
+          maxRotation: 0,
+          minRotation: 0,
+          font: {
+            size: 11,
+          }
+        }
+      }
     },
   };
 
