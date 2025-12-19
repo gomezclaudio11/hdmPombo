@@ -63,12 +63,14 @@
 .charts-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 20px;
+  gap: 15px;
 }
 
 .chart-container {
-  min-height: 450px;
+  min-height: 400px;
   width: 100%;
+  position: relative;
+  margin: auto;
 }
 
 .placeholder-card {
@@ -86,3 +88,14 @@
   margin-top: 20px;
 }
 
+/* Ajustes específicos para celulares (pantallas menores a 768px) */
+@media (max-width: 768px) {
+  .chart-container {
+    min-height: 500px; /* Le damos más altura para que las barras no se amontonen */
+    padding: 10px;
+  }
+  .charts-grid {
+    grid-template-columns: 1fr; /* Una sola columna en el celular */
+    gap: 15px;
+  }
+}
