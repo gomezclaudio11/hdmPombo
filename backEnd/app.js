@@ -28,13 +28,11 @@ mongoose.connect(mongoURI)
 
 // Configuración de CORS
 
-const corsOptions = {
-    origin: 'https://hdmpombo.onrender.com',  
-    optionsSuccesStatus: 200
-};
-
-
-app.use(cors(corsOptions));
+app.use(cors({
+     origin: '*', 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'] 
+}));
 app.use(express.json()); // Habilita la lectura de cuerpos JSON en peticiones (req.body)
 
 
