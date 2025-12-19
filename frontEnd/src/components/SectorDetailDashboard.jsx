@@ -5,7 +5,7 @@ import { Bar } from 'react-chartjs-2';
 const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 // Lista de sectores (puedes agregar más según tu Excel)
-const SECTORES = ["UTI POMBO", "GUARDIA", "7MO PISO", "QUIROFANO", "PLANTA BAJA"];
+const SECTORES = ["UTI ADULTO", "GUARDIA", "4to piso", "5to piso", "6to piso", "7to piso"];
 
 function SectorDetailDashboard() {
   const [sectorSeleccionado, setSectorSeleccionado] = useState(SECTORES[0]);
@@ -86,7 +86,7 @@ function SectorDetailDashboard() {
 
 export default SectorDetailDashboard;
 /**
- encodeURIComponent: Como tus sectores tienen espacios (ej: "UTI POMBO"), 
+ encodeURIComponent: Como tus sectores tienen espacios (ej: "UTI adulto"), 
  el navegador no puede enviarlos así en la URL. Esta función convierte el 
  espacio en %20 para que el Back-End lo reciba correctamente.
 
