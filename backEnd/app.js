@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose'); 
 const cors = require('cors'); 
+const helmet = require("helmet");
 const observacionRoutes = require("./routes/observacionRoutes")
 // Cargar variables de entorno del archivo .env
 dotenv.config();
@@ -29,13 +30,13 @@ mongoose.connect(mongoURI)
 // Configuración de CORS
 
 app.use(cors({
-     origin: '*', 
+     origin: 'https://hdmpombo-frontend.onrender.com', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'] 
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 200 
 }));
 app.use(express.json()); // Habilita la lectura de cuerpos JSON en peticiones (req.body)
-
-
+app.use(helmet()); // capas de seguridad contra ataques comunes
 
 // 5. Definir la Ruta de Prueba (Endpoint de Bienvenida)
 app.get('/', (req, res) => {
