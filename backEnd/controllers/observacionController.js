@@ -52,14 +52,14 @@ exports.getGlobalCompliance = async (req, res) => {
             }
         ]);
         const totalOportunidades = stats[0].totalOportunidades[0]?.total || 0;
-        const totalCumplimiento = cumplimientos.length > 0 ? cumplimientos[0].totalCumplimiento : 0;
+        const totalCumplimiento = stats[0].totalCumplimientos[0]?.total || 0;
         
         const porcentajeCumplimiento = totalOportunidades > 0 
             ? ((totalCumplimiento / totalOportunidades) * 100).toFixed(2) 
             : 0;
 
         res.json({
-            totalObservaciones: totalObservations,
+            totalObservaciones: totalOportunidades,
             accionesRealizadas: totalCumplimiento,
             porcentajeCumplimiento: parseFloat(porcentajeCumplimiento)
         });
@@ -273,7 +273,7 @@ exports.getComplianceByMoment = async (req, res) => {
             { $sort: { momento: 1 } } // Ordenamos por nombre de momento              
         ]);
 
-        res.json(statsByProfessional);
+        res.json(statsByMoment);
     } catch (error) {
         console.error('Error al obtener datos por momento:', error);
         res.status(500).json({ message: 'Error al procesar momentos', error: error.message });
