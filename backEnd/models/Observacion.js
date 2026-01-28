@@ -9,8 +9,8 @@ const ObservacionSchema = new mongoose.Schema({
     'Personal al que observo': String,
     'Momento que observa': String,
     'Accion que realizo': String,
-    'Momento que observa 2': String,
-    'Acción que realizo 2': String 
+    'Momento que observa2': String,
+    'Acción que realizo2': String 
 });
 
 module.exports = mongoose.model('Observacion', ObservacionSchema, 'observacions')
