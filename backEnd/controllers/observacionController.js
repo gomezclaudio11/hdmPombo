@@ -98,6 +98,7 @@ exports.getComplianceBySector = async (req, res) => {
                             { 
                                 $cond: [
                                     { $and: [
+                                        { $ifNull: ["$Momento que observa", false] }, // Debe haber momento
                                         { $ne: ["$Accion que realizo", "Ninguna"] },
                                         { $ne: ["$Accion que realizo", null] }
                                     ]}, 1, 0 
@@ -106,6 +107,7 @@ exports.getComplianceBySector = async (req, res) => {
                             { 
                                 $cond: [
                                     { $and: [
+                                        { $ifNull: ["$Momento que observa2", false] }, // Debe haber momento
                                         { $ne: ["$Acción que realizo2", "Ninguna"] },
                                         { $ne: ["$Acción que realizo2", null] }
                                     ]}, 1, 0 
