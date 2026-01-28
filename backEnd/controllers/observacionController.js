@@ -161,46 +161,70 @@ exports.getComplianceByProfessional = async (req, res) => {
     try {
         const statsByProfessional = await Observacion.aggregate([
             {
-                // Primera fase: Agrupamos por el rol del personal observado
-                $group: {
-                    _id: "$Personal al que observo", 
-                    totalObservaciones: { $sum: 1 },
-                    accionesCorrectas: {
-                        $sum: {
-                            $cond: [
-                                { 
-                                    $and: [
-                                        { $ne: ["$Accion que realizo", "Ninguna"] }, 
+                // 1. Calculamos oportunidades y cumplimientos por cada fila
+                $project: {
+                    rol: "$Personal al que observo",
+                    oportunidadesEnFila: {
+                        $sum: [
+                            { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] },
+                            { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
+                        ]
+                    },
+                    cumplimientosEnFila: {
+                        $sum: [
+                            { 
+                                // Validación: Acción 1 válida solo si existe Momento 1
+                                $cond: [
+                                    { $and: [
+                                        { $ifNull: ["$Momento que observa", false] },
+                                        { $ne: ["$Accion que realizo", "Ninguna"] },
                                         { $ne: ["$Accion que realizo", null] }
-                                    ]
-                                }, 
-                                1, 0
-                            ]
-                        }
+                                    ]}, 1, 0 
+                                ] 
+                            },
+                            { 
+                                // Validación: Acción 2 válida solo si existe Momento 2
+                                $cond: [
+                                    { $and: [
+                                        { $ifNull: ["$Momento que observa2", false] },
+                                        { $ne: ["$Acción que realizo2", "Ninguna"] },
+                                        { $ne: ["$Acción que realizo2", null] }
+                                    ]}, 1, 0 
+                                ] 
+                            }
+                        ]
                     }
                 }
             },
             {
-                // Segunda fase: Calculamos el porcentaje y limpiamos la salida
+                // 2. Agrupamos por el rol profesional
+                $group: {
+                    _id: "$rol",
+                    totalOportunidades: { $sum: "$oportunidadesEnFila" },
+                    totalCumplimientos: { $sum: "$cumplimientosEnFila" }
+                }
+            },
+            {
+                // 3. Calculamos el porcentaje final
                 $project: {
                     rol: "$_id",
-                    totalObservaciones: 1,
-                    accionesCorrectas: 1,
+                    totalOportunidades: 1,
+                    totalCumplimientos: 1,
                     porcentajeCumplimiento: {
                         $multiply: [
                             { 
                                 $cond: [
-                                    { $eq: ["$totalObservaciones", 0] }, 
+                                    { $eq: ["$totalOportunidades", 0] }, 
                                     0, 
-                                    { $divide: ["$accionesCorrectas", "$totalObservaciones"] }
-                                ]
+                                    { $divide: ["$totalCumplimientos", "$totalOportunidades"] }
+                                ] 
                             },
                             100
                         ]
                     }
                 }
             },
-            // Ordenar de mayor a menor cumplimiento para el ranking del Dashboard
+            // 4. Ordenar para el ranking (del mejor al peor cumplimiento)
             { $sort: { porcentajeCumplimiento: -1 } }
         ]);
 
@@ -438,6 +462,7 @@ exports.getStaffComplianceBySector = async (req, res) => {
                             { 
                                 $cond: [
                                     { $and: [
+                                        { $ifNull: ["$Momento que observa", false] },
                                         { $ne: ["$Accion que realizo", "Ninguna"] },
                                         { $ne: ["$Accion que realizo", null] }
                                     ]}, 1, 0 
@@ -446,6 +471,7 @@ exports.getStaffComplianceBySector = async (req, res) => {
                             { 
                                 $cond: [
                                     { $and: [
+                                        { $ifNull: ["$Momento que observa2", false] },
                                         { $ne: ["$Acción que realizo2", "Ninguna"] },
                                         { $ne: ["$Acción que realizo2", null] }
                                     ]}, 1, 0 
