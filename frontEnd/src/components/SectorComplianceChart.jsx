@@ -54,7 +54,7 @@ function SectorComplianceChart() {
     };
 
     fetchSectorData();
-  }, []);
+  }, [mes]);
 
   const options = {
     responsive: true,
