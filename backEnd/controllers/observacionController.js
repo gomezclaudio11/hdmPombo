@@ -81,7 +81,17 @@ Es mucho más rápido y eficiente
 // Endpoint: Obtener estadísticas de cumplimiento agrupadas por sector
 exports.getComplianceBySector = async (req, res) => {
     try {
+        const { mes } = req.query; // Capturamos el mes (ej: "03", "07", "11")
+        let filtroFecha = {};
+
+        // Si el usuario elige un mes, filtramos el rango de fechas para el año 2025
+        if (mes) {
+            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+        }
         const statsBySector = await Observacion.aggregate([
+            { $match: filtroFecha }, // 1. FILTRO POR MES (Si no hay mes, trae todos)
             {
             $project: {
                     sector: "$Sector en el que realizo la observación",
