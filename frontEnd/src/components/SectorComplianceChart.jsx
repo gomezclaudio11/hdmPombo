@@ -30,7 +30,7 @@ function SectorComplianceChart() {
   useEffect(() => {
     const fetchSectorData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/stats-sector`);
+        const response = await axios.get(`${API_URL}/stats-sector${mes ? `?mes=${mes}` : ''}`);
         const data = response.data;
 
         // Preparamos los datos para Chart.js
