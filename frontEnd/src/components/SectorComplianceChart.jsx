@@ -23,7 +23,7 @@ ChartJS.register(
 
 const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function SectorComplianceChart() {
+function SectorComplianceChart({ mes }) {
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
 
