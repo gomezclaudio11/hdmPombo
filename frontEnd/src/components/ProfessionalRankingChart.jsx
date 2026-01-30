@@ -24,14 +24,14 @@ ChartJS.register(
 // La URL base de tu API de Express
 const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function ProfessionalRankingChart() {
+function ProfessionalRankingChart({ mes }) {
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProfessionalData = async () => {
             try {
-                const response = await axios.get(`${API_URL}/stats-professional`);
+                const response = await axios.get(`${API_URL}/stats-professional${mes ? `?mes=${mes}` : ''}`);
                 const data = response.data;
 
                 setChartData({
@@ -53,7 +53,7 @@ function ProfessionalRankingChart() {
             } 
             };
             fetchProfessionalData();
-        }, []);
+        }, [mes]);
 
 const options = {
     indexAxis: 'y', // <--- ESTO LO HACE HORIZONTAL

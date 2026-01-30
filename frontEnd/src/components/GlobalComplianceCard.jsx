@@ -8,7 +8,7 @@ const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
  * Componente Tarjeta de Cumplimiento Global
  * Fetches data from /api/observaciones/global and displays the result.
  */
-function GlobalComplianceCard() {
+function GlobalComplianceCard({ mes }) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -18,7 +18,7 @@ function GlobalComplianceCard() {
         const fetchData = async () => {
             try {
                 // Realizar la petición al endpoint de cumplimiento global
-                const response = await axios.get(`${API_URL}/global-compliance`);
+                const response = await axios.get(`${API_URL}/global-compliance${mes ? `?mes=${mes}` : ''}`);
                 
                 // Guardar solo los datos relevantes (porcentaje, total, etc.)
                 setData(response.data);
@@ -32,7 +32,7 @@ function GlobalComplianceCard() {
         };
 
         fetchData();
-    }, []); // El array vacío asegura que la función se ejecute solo una vez al montar el componente
+    }, [mes]); 
 
     if (loading) {
         return <div className="card">Cargando datos...</div>;

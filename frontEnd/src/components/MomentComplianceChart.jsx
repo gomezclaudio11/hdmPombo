@@ -22,14 +22,14 @@ ChartJS.register(
 
 const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function MomentComplianceChart() {
+function MomentComplianceChart({ mes }) {
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchMomentData = async () => {
             try{
-                const response = await axios.get(`${API_URL}/stats-moment`);
+                const response = await axios.get(`${API_URL}/stats-moment${mes ? `?mes=${mes}` : ''}`);
                 const data = response.data;
 
                 setChartData({
@@ -51,7 +51,7 @@ function MomentComplianceChart() {
             }
         };
         fetchMomentData()
-        }, []);
+        }, [mes]);
         const options = {
     responsive: true,
     maintainAspectRatio: false,
