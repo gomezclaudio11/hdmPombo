@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import './App.css'; // Mantenemos el CSS base
 import GlobalComplianceCard from './components/GlobalComplianceCard';
 import SectorComplianceChart from './components/SectorComplianceChart';
