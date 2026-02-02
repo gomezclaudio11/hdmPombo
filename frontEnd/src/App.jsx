@@ -11,23 +11,7 @@ function App() {
 
   return (
     <div className="dashboard-layout">
-      <header className="header">
-        <h1>Dashboard de Higiene Hospitalaria</h1>
-        <div className="filtro-mes">
-          <label htmlFor="mes-select">📅 Filtrar por Mes: </label>
-          <select 
-            id="mes-select" 
-            value={mes} 
-            onChange={(e) => setMes(e.target.value)}
-            style={{ padding: '5px', borderRadius: '5px', marginLeft: '10px' }}
-          >
-            <option value="">Todos los meses</option>
-            <option value="03">Marzo</option>
-            <option value="07">Julio</option>
-            <option value="11">Noviembre</option>
-          </select>
-        </div>
-      </header>
+      <header mes={mes} setMes={setMes}/>
       
     <main className="main-content">
         {/* Fila superior: Resumen Global */}
