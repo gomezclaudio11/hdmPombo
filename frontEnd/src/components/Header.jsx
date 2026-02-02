@@ -20,8 +20,6 @@ function Header({ mes, setMes }) {
           <option value="08">Agosto</option>
           <option value="11">Noviembre</option>
           <option value="12">Diciembre</option>
-          {/* Puedes agregar Diciembre si ya corregiste los datos */}
-          <option value="12">Diciembre</option>
         </select>
       </div>
     </header>
