@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css'; // Mantenemos el CSS base
+import Header from './components/Header';
 import GlobalComplianceCard from './components/GlobalComplianceCard';
 import SectorComplianceChart from './components/SectorComplianceChart';
 import ProfessionalRankingChart from './components/ProfessionalRankingChart';
@@ -11,7 +12,7 @@ function App() {
 
   return (
     <div className="dashboard-layout">
-      <header mes={mes} setMes={setMes}/>
+      <Header mes={mes} setMes={setMes}/>
       
     <main className="main-content">
         {/* Fila superior: Resumen Global */}
