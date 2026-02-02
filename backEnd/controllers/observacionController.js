@@ -3,8 +3,18 @@ const Observacion = require("../models/Observacion")
 // Endpoint 1: Obtener el resumen del cumplimiento global
 exports.getGlobalCompliance = async (req, res) => {
     try {
+        const { mes } = req.query; // Capturamos el mes (ej: "03", "07", "11")
+        let filtroFecha = {};
+
+        // Si el usuario elige un mes, filtramos el rango de fechas para el año 2025
+        if (mes) {
+            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+        }
       const stats = await Observacion.aggregate([
-            {
+        { $match: filtroFecha },    
+        {
                 $facet: {
                     // Calculamos el total de oportunidades (Momento 1 + Momento 2 si existe)
                     "totalOportunidades": [
@@ -29,6 +39,7 @@ exports.getGlobalCompliance = async (req, res) => {
                                         { 
                                             $cond: [
                                                 { $and: [
+                                                    { $ifNull: ["$Momento que observa", false] },
                                                     { $ne: ["$Accion que realizo", "Ninguna"] },
                                                     { $ne: ["$Accion que realizo", null] }
                                                 ]}, 1, 0 
@@ -37,6 +48,7 @@ exports.getGlobalCompliance = async (req, res) => {
                                         { 
                                             $cond: [
                                                 { $and: [
+                                                    { $ifNull: ["$Momento que observa2", false] },
                                                     { $ne: ["$Acción que realizo2", "Ninguna"] },
                                                     { $ne: ["$Acción que realizo2", null] }
                                                 ]}, 1, 0 
@@ -169,7 +181,17 @@ exports.getComplianceBySector = async (req, res) => {
 // Endpoint: Obtener estadísticas de cumplimiento agrupadas por Rol Profesional
 exports.getComplianceByProfessional = async (req, res) => {
     try {
+        const { mes } = req.query; // 1. Capturamos el mes de la URL
+        let filtroFecha = {};
+
+        // 2. Configuramos el filtro si existe un mes
+        if (mes) {
+            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+        }
         const statsByProfessional = await Observacion.aggregate([
+            { $match: filtroFecha },
             {
                 // 1. Calculamos oportunidades y cumplimientos por cada fila
                 $project: {
@@ -248,7 +270,17 @@ exports.getComplianceByProfessional = async (req, res) => {
 // Endpoint: Obtener cumplimiento según el Momento de la observación
 exports.getComplianceByMoment = async (req, res) => {
     try {
+        const { mes } = req.query; // 1. Capturamos el mes
+        let filtroFecha = {};
+
+        // 2. Definimos el rango de fecha para 2025
+        if (mes) {
+            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+        }
         const statsByMoment = await Observacion.aggregate([
+            { $match: filtroFecha },
              {
                 // 1. Proyectamos las dos posibles oportunidades de la fila por separado
                 $project: {
