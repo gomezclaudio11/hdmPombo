@@ -10,25 +10,30 @@ exports.getGlobalCompliance = async (req, res) => {
         if (mes) {
             const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
             const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } }; //operadores de 
+            // comparación fundamentales para filtrar datos, Greater Than or Equal, Less than or Equal
         }
-      const stats = await Observacion.aggregate([
-        { $match: filtroFecha },    
+      const stats = await Observacion.aggregate([ //pipeline de agregacion
+        { $match: filtroFecha }, //filtro
         {
-                $facet: {
+                $facet: { //analisis multidimencional en una sola consulta
                     // Calculamos el total de oportunidades (Momento 1 + Momento 2 si existe)
                     "totalOportunidades": [
                         {
-                            $project: {
+                            $project: { //en cada fila revisa dos campos
                                 counts: {
                                     $sum: [
                                         { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] },
                                         { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
+                                        //Si la fila tiene los dos momentos llenos, counts será 2.
+                                        // Si solo tiene el primero, counts será 1.
+                                        // Si están vacíos, será 0.
                                     ]
                                 }
                             }
                         },
                         { $group: { _id: null, total: { $sum: "$counts" } } }
+                        //_id: null: Significa no me agrupes por categorías, júntame todo en una sola bolsa
                     ],
                     // Calculamos el total de acciones efectivas (Accion 1 + Accion 2)
                     "totalCumplimientos": [
@@ -38,9 +43,11 @@ exports.getGlobalCompliance = async (req, res) => {
                                     $sum: [
                                         { 
                                             $cond: [
-                                                { $and: [
+                                                { $and: [ //Es un operador lógico que exige 
+                                                // que todas las condiciones de la lista sean
+                                                //verdaderas. evita falsos positivos
                                                     { $ifNull: ["$Momento que observa", false] },
-                                                    { $ne: ["$Accion que realizo", "Ninguna"] },
+                                                    { $ne: ["$Accion que realizo", "Ninguna"] }, //not equal
                                                     { $ne: ["$Accion que realizo", null] }
                                                 ]}, 1, 0 
                                             ] 
@@ -65,15 +72,36 @@ exports.getGlobalCompliance = async (req, res) => {
         ]);
         const totalOportunidades = stats[0].totalOportunidades[0]?.total || 0;
         const totalCumplimiento = stats[0].totalCumplimientos[0]?.total || 0;
-        
-        const porcentajeCumplimiento = totalOportunidades > 0 
+        /**
+         *mongo db devuelve
+         [
+            {
+                "totalOportunidades": [{ "total": 150 }],
+                "totalCumplimientos": [{ "total": 120 }]
+            }
+        ]
+        Con stats[0] (entra a la llave) -> totalOportunidades[0] (entra al corchete) -> 
+        .total (toma el 150).   
+        optional chaining => El símbolo ?. significa: "Si lo que está a la izquierda existe, 
+        sigue adelante; si no, detente y devuelve undefined". 
+        Si toda la búsqueda anterior falló o no encontró datos (devolvió null o undefined), 
+        el operador || dice: "Bueno, si no hay nada, entonces pon un 0". Esto es vital para 
+        que cuando calcules el porcentaje no intentes dividir por "nada", lo que rompería tu 
+        aplicación.
+         */
+
+        //operador ternario
+        const porcentajeCumplimiento = totalOportunidades > 0 //para que no divida x 0
             ? ((totalCumplimiento / totalOportunidades) * 100).toFixed(2) 
             : 0;
 
-        res.json({
+        res.json({ //envio de respuestas
             totalObservaciones: totalOportunidades,
             accionesRealizadas: totalCumplimiento,
             porcentajeCumplimiento: parseFloat(porcentajeCumplimiento)
+            // Como usamos .toFixed(2), el resultado se convirtió técnicamente en un "String" (texto).
+            //  Con parseFloat, lo volvemos a convertir en un número para que los gráficos de barras
+            //  puedan dibujarlo correctamente
         });
 
     } catch (error) {
@@ -81,7 +109,13 @@ exports.getGlobalCompliance = async (req, res) => {
         res.status(500).json({ message: 'Error interno del servidor', error: error.message });
     }
 };
-
+/**
+ * AGGREGATE
+ framework de agregación de MongoDB permite realizar procesamientos de 
+ datos complejos directamente en el servidor. Esto es mucho más eficiente que traer miles 
+ de documentos al Frontend y procesarlos con JavaScript, ya que reduce el tráfico de red y 
+ aprovecha la potencia de cálculo de la base de datos.
+ */
 /**
  $facet
 
@@ -142,7 +176,7 @@ exports.getComplianceBySector = async (req, res) => {
             {
                 // Ahora agrupamos por sector sumando los totales calculados arriba
                 $group: {
-                    _id: "$sector",
+                    _id: "$sector", //le ordenamos a mongo que junte los que tengan el mismo sector
                     totalOportunidades: { $sum: "$oportunidadesEnFila" },
                     totalCumplimientos: { $sum: "$cumplimientosEnFila" }
                 }
@@ -159,14 +193,14 @@ exports.getComplianceBySector = async (req, res) => {
                                     { $eq: ["$totalOportunidades", 0] }, 
                                     0, 
                                     { $divide: ["$totalCumplimientos", "$totalOportunidades"] }
-                                ] 
+                                ] // la division da 0.65 x eso multiplicamos x 100
                             },
                             100
                         ]
                     }
                 }
             },
-            { $sort: { porcentajeCumplimiento: -1 } }
+            { $sort: { porcentajeCumplimiento: -1 } } //de mayor a menor
         ]);
 
         res.json(statsBySector);    

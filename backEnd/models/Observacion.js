@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-// El nombre de las propiedades debe coincidir con los encabezados de tu CSV/JSON
+// El nombre de las propiedades debe coincidir con los encabezados de CSV/JSON
 const ObservacionSchema = new mongoose.Schema({
     'Marca temporal': Date,
     'Nombre del observador': String,

@@ -14,3 +14,8 @@ router.get('/stats-sector-detalle/:nombreSector', observacionController.getStaff
 
 module.exports = router;
 
+/**
+ La URL del navegador solo muestra la ruta del Frontend (la interfaz). Las rutas de la API 
+ son puntos de enlace (endpoints) que mi aplicación de React consulta internamente mediante 
+ peticiones asíncronas para obtener los datos de MongoDB sin recargar la página
+ */

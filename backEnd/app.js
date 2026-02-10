@@ -28,12 +28,18 @@ mongoose.connect(mongoURI)
 // 4. Middlewares Básicos
 
 // Configuración de CORS
+/**
+ (Cross-Origin Resource Sharing o Intercambio de Recursos de Origen Cruzado) es un mecanismo 
+ de seguridad que utilizan los navegadores para proteger a los usuarios.
+Sirve para decidir si una página web (Frontend) tiene permiso para pedirle cosas a un servidor 
+(tu Backend) que está en una dirección diferente.
+ */
 
 app.use(cors({
      origin: 'https://hdmpombo-frontend.onrender.com', 
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 200 
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    allowedHeaders: ['Content-Type', 'Authorization'], //es vital para enviar archivos JSON.
+    optionsSuccessStatus: 200 // petición "de prueba" (llamada Preflight) antes de la real.
 }));
 app.use(express.json()); // Habilita la lectura de cuerpos JSON en peticiones (req.body)
 app.use(helmet()); // capas de seguridad contra ataques comunes
