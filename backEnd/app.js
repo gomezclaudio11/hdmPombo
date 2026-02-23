@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors'); 
 const helmet = require("helmet");
 const observacionRoutes = require("./routes/observacionRoutes")
+const authRoutes = require("./routes/observacionRoutes")
 // Cargar variables de entorno del archivo .env
 dotenv.config();
 
@@ -51,6 +52,7 @@ app.get('/', (req, res) => {
 
 // 6. Usar las Rutas de la API
 app.use('/api/observaciones', observacionRoutes); // <-- 2. Usar las Rutas con prefijo
+app.use("/api/auth", authRoutes)
 
 
 // 6. Iniciar el Servidor
