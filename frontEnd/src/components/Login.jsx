@@ -34,7 +34,7 @@ const Login = () => {
             window.location.reload(); 
         } catch (error) {
             // Manejo de errores (Credenciales incorrectas, etc.)
-            setError(err.response?.data?.message || 'Error al iniciar sesión');
+            setError(error.response?.data?.message || 'Error al iniciar sesión');
         }
     };
 
