@@ -1,13 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
-
-    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -26,12 +23,8 @@ const Login = () => {
             //3. guardar en localStorage 
             localStorage.setItem("token", token);
 
-            //4. redirigir al dashboard
-            //se usa navigate para que la pag no se recargue bruscamente
-            navigate("/dashboard");
-
-           // Opcional: Forzar un refresh si necesitas que el App.js detecte el cambio
-            window.location.reload(); 
+            // Opcional: Forzar un refresh si necesitas que el App.js detecte el cambio
+            window.location.href = "/dashboard"; 
         } catch (error) {
             // Manejo de errores (Credenciales incorrectas, etc.)
             setError(error.response?.data?.message || 'Error al iniciar sesión');
