@@ -19,8 +19,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+import clienteAxios from '../api/axiosConfig';
 
-const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
+//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 function MomentComplianceChart({ mes }) {
     const [chartData, setChartData] = useState(null);
@@ -29,7 +30,7 @@ function MomentComplianceChart({ mes }) {
     useEffect(() => {
         const fetchMomentData = async () => {
             try{
-                const response = await axios.get(`${API_URL}/stats-moment${mes ? `?mes=${mes}` : ''}`);
+                const response = await clienteAxios.get(`observaciones/stats-moment${mes ? `?mes=${mes}` : ''}`);
                 const data = response.data;
 
                 setChartData({

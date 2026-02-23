@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
+import clienteAxios from '../api/axiosConfig';
 
-const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
+//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-// Lista de sectores (puedes agregar más según tu Excel)
+// Lista de sectores 
 const SECTORES = ["UTI ADULTO", "GUARDIA", "4to piso", "5to piso", "6to piso", "7mo piso"];
 
 function SectorDetailDashboard() {
@@ -18,7 +19,7 @@ function SectorDetailDashboard() {
       try {
         // 1. Usamos la URL dinámica que creamos en el Back-End
         // encodeURIComponent es vital porque nombres como "UTI POMBO" tienen espacios
-        const response = await axios.get(`${API_URL}/stats-sector-detalle/${encodeURIComponent(sectorSeleccionado)}`);
+        const response = await clienteAxios.get(`observaciones/stats-sector-detalle/${encodeURIComponent(sectorSeleccionado)}`);
         const data = response.data;
 
         setChartData({
@@ -86,7 +87,7 @@ function SectorDetailDashboard() {
 
 export default SectorDetailDashboard;
 /**
- encodeURIComponent: Como tus sectores tienen espacios (ej: "UTI adulto"), 
+ encodeURIComponent: Como los sectores tienen espacios (ej: "UTI adulto"), 
  el navegador no puede enviarlos así en la URL. Esta función convierte el 
  espacio en %20 para que el Back-End lo reciba correctamente.
 

@@ -20,8 +20,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+import clienteAxios from '../api/axiosConfig';
 
-const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
+//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 function SectorComplianceChart({ mes }) {
   const [chartData, setChartData] = useState(null);
@@ -30,7 +31,7 @@ function SectorComplianceChart({ mes }) {
   useEffect(() => {
     const fetchSectorData = async () => {
       try {
-        const response = await axios.get(`${API_URL}/stats-sector${mes ? `?mes=${mes}` : ''}`);
+        const response = await clienteAxios.get(`observaciones/stats-sector${mes ? `?mes=${mes}` : ''}`);
         const data = response.data;
 
         // Preparamos los datos para Chart.js
@@ -54,7 +55,7 @@ function SectorComplianceChart({ mes }) {
     };
 
     fetchSectorData();
-  }, [mes]);
+  }, [mes]); //array de dependencias, si su valor cambia ejecuta de nuevo ferchSectorData
 
   const options = {
     responsive: true,

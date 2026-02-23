@@ -20,18 +20,19 @@ ChartJS.register(
   Tooltip,
   Legend
 );
+import clienteAxios from '../api/axiosConfig';
 
-// La URL base de tu API de Express
-const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
+// La URL base de mi API de Express
+//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 function ProfessionalRankingChart({ mes }) {
-    const [chartData, setChartData] = useState(null);
+    const [chartData, setChartData] = useState(null); 
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchProfessionalData = async () => {
             try {
-                const response = await axios.get(`${API_URL}/stats-professional${mes ? `?mes=${mes}` : ''}`);
+                const response = await clienteAxios.get(`observaciones/stats-professional${mes ? `?mes=${mes}` : ''}`);
                 const data = response.data;
 
                 setChartData({

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios from 'axios'; //es una librería de JavaScript que sirve para hacer peticiones 
+// HTTP desde la aplicación (el Frontend) hacia un servidor (el Backend).
+import clienteAxios from '../api/axiosConfig';
 
 // La URL base de tu API de Express
-const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
+//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 /**
  * Componente Tarjeta de Cumplimiento Global
  * Fetches data from /api/observaciones/global and displays the result.
  */
 function GlobalComplianceCard({ mes }) {
-    const [data, setData] = useState(null);
+    const [data, setData] = useState(null);// cuando la aplicacion arranca no hay datos
+    //xq la peticion todavia no se hizo al poner null decimos todavia no tengo info
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -18,7 +21,7 @@ function GlobalComplianceCard({ mes }) {
         const fetchData = async () => {
             try {
                 // Realizar la petición al endpoint de cumplimiento global
-                const response = await axios.get(`${API_URL}/global-compliance${mes ? `?mes=${mes}` : ''}`);
+                const response = await clienteAxios.get(`observaciones/global-compliance${mes ? `?mes=${mes}` : ''}`); //ordenador ternario / query parameter
                 
                 // Guardar solo los datos relevantes (porcentaje, total, etc.)
                 setData(response.data);
