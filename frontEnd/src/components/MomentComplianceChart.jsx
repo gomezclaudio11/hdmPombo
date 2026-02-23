@@ -30,7 +30,7 @@ function MomentComplianceChart({ mes }) {
     useEffect(() => {
         const fetchMomentData = async () => {
             try{
-                const response = await clienteAxios.get(`observaciones/stats-moment${mes ? `?mes=${mes}` : ''}`);
+                const response = await clienteAxios.get(`/observaciones/stats-moment${mes ? `?mes=${mes}` : ''}`);
                 const data = response.data;
 
                 setChartData({

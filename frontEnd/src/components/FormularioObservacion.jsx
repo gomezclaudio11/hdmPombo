@@ -5,7 +5,7 @@ const FormularioObservacion = () => {
     const [formData, setFormData] = useState({
         sector: '',
         turno: "",
-        profesional: '',
+        personalObservado: '',
         momento: '',
         cumple: true
     });
@@ -16,7 +16,7 @@ const FormularioObservacion = () => {
             // Gracias al interceptor, NO necesitamos pasar el token aquí
             await clienteAxios.post('/observaciones', formData);
             alert("Observación guardada con éxito");
-            setFormData({ sector: '', turno: "", profesional: '', momento: '', cumple: true }); // Limpiar
+            setFormData({ sector: '', turno: "", personalObservado: '', momento: '', cumple: true }); // Limpiar
         } catch (error) {
             console.error(error);
             alert("Error: Tal vez no tienes permisos de Observador");
@@ -41,6 +41,15 @@ const FormularioObservacion = () => {
                 onChange={(e) => setFormData({...formData, turno: e.target.value})} 
                 required 
             />
+
+            <label>Personal al que observo:</label>
+            <input 
+                type="text" 
+                value={formData.personalObservado} 
+                onChange={(e) => setFormData({...formData, personalObservado: e.target.value})} 
+                required 
+            />
+
             <label>Momento:</label>
             <select value={formData.momento} onChange={(e) => setFormData({...formData, momento: e.target.value})}>
                 <option value="">Seleccione...</option>
