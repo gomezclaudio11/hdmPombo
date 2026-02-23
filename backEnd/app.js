@@ -39,7 +39,7 @@ Sirve para decidir si una página web (Frontend) tiene permiso para pedirle cosa
 app.use(cors({
      origin: 'https://hdmpombo-frontend.onrender.com', 
     methods: ['GET', 'POST', 'PUT', 'DELETE'], 
-    allowedHeaders: ['Content-Type', 'Authorization'], //es vital para enviar archivos JSON.
+    allowedHeaders: ['Content-Type', 'x-auth-token'], //es vital para enviar archivos JSON.
     optionsSuccessStatus: 200 // petición "de prueba" (llamada Preflight) antes de la real.
 }));
 app.use(express.json()); // Habilita la lectura de cuerpos JSON en peticiones (req.body)
