@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'; //es una librería de JavaScript que sirve para hacer peticiones 
+//es una librería de JavaScript que sirve para hacer peticiones 
 // HTTP desde la aplicación (el Frontend) hacia un servidor (el Backend).
 import clienteAxios from '../api/axiosConfig';
 
@@ -45,8 +45,9 @@ function GlobalComplianceCard({ mes }) {
         return <div className="card error">Error: {error}</div>;
     }
 
-    // Desestructuración para leer el porcentaje
-    const { porcentajeCumplimiento, totalObservaciones } = data;
+    //  Usamos valores por defecto para que NUNCA sea undefined
+    const porcentajeCumplimiento = data?.porcentajeCumplimiento || 0;
+    const totalObservaciones = data?.totalObservaciones || 0;
     
     // Determinar el color de la tarjeta basado en el cumplimiento (Opcional, pero bueno para KPIs)
     const cardClass = porcentajeCumplimiento >= 80 ? 'compliance-high' : 
@@ -57,7 +58,7 @@ function GlobalComplianceCard({ mes }) {
         <div className={`compliance-card ${cardClass}`}>
             <h2>Cumplimiento Global</h2>
             <div className="percentage-display">
-                {porcentajeCumplimiento}%
+                {Number(porcentajeCumplimiento).toFixed(1)}%
             </div>
             <p className="subtitle">
                 Basado en {totalObservaciones} observaciones.
