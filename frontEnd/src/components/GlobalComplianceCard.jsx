@@ -58,7 +58,7 @@ function GlobalComplianceCard({ mes }) {
         <div className={`compliance-card ${cardClass}`}>
             <h2>Cumplimiento Global</h2>
             <div className="percentage-display">
-                {Number(porcentajeCumplimiento).toFixed(1)}%
+                {Number(porcentajeCumplimiento).toFixed(2)}%
             </div>
             <p className="subtitle">
                 Basado en {totalObservaciones} observaciones.

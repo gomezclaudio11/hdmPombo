@@ -1,5 +1,13 @@
 import React from 'react';
 
+const handleLogout = () => {
+  //1. se borra el token
+  localStorage.removeItem("token");
+
+  //2 redirigimos al login
+  window.location.href = "/login"
+}
+
 function Header({ mes, setMes }) {
   return (
     <header className="header" style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -21,6 +29,11 @@ function Header({ mes, setMes }) {
           <option value="11">Noviembre</option>
           <option value="12">Diciembre</option>
         </select>
+      </div>
+      <div>
+        <button onClick={handleLogout} className="logout-button">
+          Cerrar Sesión
+        </button>
       </div>
     </header>
   );
