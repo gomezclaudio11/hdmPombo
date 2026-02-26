@@ -11,22 +11,18 @@ import Login from './components/Login';
 
 //1. componente interno Dashboard
 const Dashboard = ({ mes, setMes }) => {
-  /*
+  return(
       <div className="dashboard-layout">
       <Header mes={mes} setMes={setMes}/>      
     <main className="main-content">
-    */
-      
+       
      {/*Fila superior: Resumen Global*/} 
        
         <section className="kpi-section">
            <GlobalComplianceCard mes={mes} />
         </section>
-      //  </main>
-        //</div>
-       }
-        {/* Fila de Gráficos */}
-        /*
+     
+     {/* Fila de Gráficos */}
         <section className="charts-grid">
           <div className="chart-container">
             <SectorComplianceChart mes={mes}/>
@@ -45,8 +41,9 @@ const Dashboard = ({ mes, setMes }) => {
         </section>
         </main>
         </div>
+  )
 }
-*/
+
 
 
 // Componente para proteger rutas (Evita que entren sin Login)
