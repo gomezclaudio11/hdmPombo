@@ -10,7 +10,7 @@ import clienteAxios from '../api/axiosConfig';
  * Componente Tarjeta de Cumplimiento Global
  * Fetches data from /api/observaciones/global and displays the result.
  */
-function GlobalComplianceCard({ mes }) {/*
+function GlobalComplianceCard({ mes }) {
     const [data, setData] = useState(null);// cuando la aplicacion arranca no hay datos
     //xq la peticion todavia no se hizo al poner null decimos todavia no tengo info
     const [loading, setLoading] = useState(true);
@@ -53,8 +53,8 @@ function GlobalComplianceCard({ mes }) {/*
     const cardClass = porcentajeCumplimiento >= 80 ? 'compliance-high' : 
                      porcentajeCumplimiento >= 60 ? 'compliance-medium' : 
                      'compliance-low';
-*/
-    return (/*
+
+    return (
         <div className={`compliance-card ${cardClass}`}>
             <h2>Cumplimiento Global</h2>
             <div className="percentage-display">
@@ -63,11 +63,8 @@ function GlobalComplianceCard({ mes }) {/*
             <p className="subtitle">
                 Basado en {totalObservaciones} observaciones.
             </p>
-        </div>*/
-        <div className="compliance-card">
-            <h2>Prueba de Renderizado</h2>
-            <p>Si ves esto, el archivo se importa bien pero falla la lógica interna.</p>
         </div>
+        
     );
 }
 
