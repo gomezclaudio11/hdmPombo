@@ -11,18 +11,19 @@ import Login from './components/Login';
 
 //1. componente interno Dashboard
 const Dashboard = ({ mes, setMes }) => {
+  /*
       <div className="dashboard-layout">
       <Header mes={mes} setMes={setMes}/>      
     <main className="main-content">
-    
+    */
       
      {/*Fila superior: Resumen Global*/} 
        
         <section className="kpi-section">
            <GlobalComplianceCard mes={mes} />
         </section>
-        </main>
-        </div>
+      //  </main>
+        //</div>
        }
         {/* Fila de Gráficos */}
         /*
