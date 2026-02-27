@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import clienteAxios from '../api/axiosConfig';
-import jwtDecode from "jwt-decode"
+import { jwtDecode } from "jwt-decode"
 import { Form } from 'react-router-dom';
 
 const FormularioObservacion = () => {
