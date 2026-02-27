@@ -8,6 +8,8 @@ import ProfessionalRankingChart from './components/ProfessionalRankingChart';
 import MomentComplianceChart from './components/MomentComplianceChart';
 import SectorDetailDashboard from './components/SectorDetailDashboard';
 import Login from './components/Login';
+import FormularioObservacion from './components/FormularioObservacion';
+import { jwtDecode } from 'jwt-decode';
 
 //1. componente interno Dashboard
 const Dashboard = ({ mes, setMes }) => {
@@ -44,8 +46,6 @@ const Dashboard = ({ mes, setMes }) => {
   )
 }
 
-
-
 // Componente para proteger rutas (Evita que entren sin Login)
 const RutaProtegida = ({ children }) => {
     const token = localStorage.getItem('token');
@@ -53,6 +53,24 @@ const RutaProtegida = ({ children }) => {
         return <Navigate to="/login" />;
     }
     return children;
+};
+
+// Componente para proteger rutas (Evita que entren sin Login)
+const RutaPorRol = ({ children, rolPermitiido }) => {
+    const token = localStorage.getItem('token');
+
+    if (!token) return <Navigate to="/login" />;
+
+    try {
+      const decoded = jwtDecode(token);
+      //si el usuario no tiene el rol necesario, lo mandamos al dashboard solo lectura
+      if (rolPermitiido && decoded.rol !== rolPermitiido && decoded.rol !== "admin") {
+        return <Navigate to= "/ dashboard" />
+      }
+      return children
+    } catch (error) {
+      return <Navigate to= "/login" />
+    }
 };
 
 function App() {
@@ -73,6 +91,13 @@ function App() {
             </RutaProtegida>
           }
           />
+
+          {/* El Formulario SOLO lo ven Observadores (y el Admin por ser superior) */}
+        <Route path='/cargar-datos' element={
+            <RutaPorRol rolPermitido="observador">
+                <FormularioObservacion />
+            </RutaPorRol>
+        } />
         
         {/* Si alguien entra a la raíz "/", redirigir al dashboard (que lo mandará al login si no hay token) */}
         <Route path="*" element={<Navigate to="/dashboard" />} />
