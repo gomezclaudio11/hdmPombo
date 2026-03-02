@@ -5,3 +5,5 @@ const authController = require("../controllers/authController")
 //Ruta para registrar usuarios POST api/auth/register
 router.post("/register", authController.register)
 router.post("/login", authController.login)
+
+module.exports = router;
