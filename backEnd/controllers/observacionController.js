@@ -1,7 +1,7 @@
 const Observacion = require("../models/Observacion")
 
 // Función para unificar datos (puedes ponerla en tu controlador y llamarla una vez)
-const unificarDatosHistoricos = async () => {
+exports.unificarDatosHistoricos = async () => {
     const datosViejos = await Observacion.find({ sector: { $exists: false } });
 
     for (let doc of datosViejos) {
@@ -16,8 +16,6 @@ const unificarDatosHistoricos = async () => {
     }
     console.log(`${datosViejos.length} registros actualizados`);
 };
-
-export default unificarDatosHistoricos();
 
 
 // Endpoint 1: Obtener el resumen del cumplimiento global
