@@ -23,7 +23,7 @@ mongoose.connect(mongoURI)
 
         // LA LLAMADA MÁGICA:
       console.log("Iniciando unificación de datos...");
-      await unificarDatosHistoricos(); 
+      //await unificarDatosHistoricos(); LINEA COMENTADA XQ SOLO SE USA UNA VEZ  
       console.log("Proceso terminado.");
     })
     .catch((err) => {
