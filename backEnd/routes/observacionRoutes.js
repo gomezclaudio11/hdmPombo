@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const observacionController = require("../controllers/observacionController");
-const authController = require("../controllers/authController")
 const { auth, checkRole } = require("../middleware/authMiddleware")
 
 // Ruta para obtener el resumen del cumplimiento global
@@ -14,9 +13,8 @@ router.get('/stats-techniques', auth, observacionController.getTechniqueUsage);
 router.get('/stats-shift', auth, observacionController.getComplianceByShift);
 router.get('/stats-sector-detalle/:nombreSector', auth, observacionController.getStaffComplianceBySector);
 
-//Ruta para registrar usuarios POST api/auth/register
-router.post("/register", authController.register)
-router.post("/login", authController.login)
+//Ruta para formulario de carga POST 
+router.post("/", auth, observacionController.crearObservacion);
 
 module.exports = router;
 

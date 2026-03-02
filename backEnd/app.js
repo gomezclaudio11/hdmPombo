@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const cors = require('cors'); 
 const helmet = require("helmet");
 const observacionRoutes = require("./routes/observacionRoutes")
-const authRoutes = require("./routes/observacionRoutes")
+const authRoutes = require("./routes/authRoutes")
+const { unificarDatosHistoricos } = require ("./controllers/observacionController")
+
 // Cargar variables de entorno del archivo .env
 dotenv.config();
 
@@ -16,8 +18,13 @@ const PORT = process.env.PORT || 3000; // Usa el puerto definido en .env o el 30
 const mongoURI = process.env.MONGO_URI; 
 
 mongoose.connect(mongoURI)
-    .then(() => {
+    .then(async () => {
         console.log(' Conectado correctamente a MongoDB.');
+
+        // LA LLAMADA MÁGICA:
+      console.log("Iniciando unificación de datos...");
+      await unificarDatosHistoricos(); 
+      console.log("Proceso terminado.");
     })
     .catch((err) => {
         console.error('Error de conexión a MongoDB:', err);

@@ -1,5 +1,25 @@
 const Observacion = require("../models/Observacion")
 
+// Función para unificar datos (puedes ponerla en tu controlador y llamarla una vez)
+const unificarDatosHistoricos = async () => {
+    const datosViejos = await Observacion.find({ sector: { $exists: false } });
+
+    for (let doc of datosViejos) {
+        doc.fecha = doc['Marca temporal'] || doc.createdAt;
+        doc.observador = doc['Nombre del observador'];
+        doc.sector = doc['Sector en el que realizo la observación'];
+        doc.profesional = doc['Personal al que observo'];
+        doc.momento = doc['Momento que observa'];
+        doc.accion = doc['Accion que realizo'];
+        
+        await doc.save();
+    }
+    console.log(`${datosViejos.length} registros actualizados`);
+};
+
+export default unificarDatosHistoricos();
+
+
 // Endpoint 1: Obtener el resumen del cumplimiento global
 exports.getGlobalCompliance = async (req, res) => {
     try {
@@ -591,5 +611,30 @@ exports.getStaffComplianceBySector = async (req, res) => {
         res.json(stats);
     } catch (error) {
         res.status(500).json({ message: 'Error al procesar datos del sector' });
+    }
+};
+
+//POST PARA NUEVO FORMULARIO
+exports.crearObservacion = async (req, res) => {
+    try {
+        const { observador, sector, turno, profesional, momento, accion } = req.body;
+
+        const nuevaObservacion = new Observacion({
+            fecha: new Date(), // Esto genera: Sat Feb 28 2026 10:00:00 ...
+            observador,
+            sector,
+            turno,
+            profesional,
+            momento,
+            accion,
+            // Opcional: llenar los campos viejos por si algún reporte los usa
+            'Nombre del observador': observador,
+            'Marca temporal': new Date()
+        });
+
+        await nuevaObservacion.save();
+        res.status(201).json({ message: "Éxito", data: nuevaObservacion });
+    } catch (error) {
+        res.status(500).json({ message: "Error", error: error.message });
     }
 };
