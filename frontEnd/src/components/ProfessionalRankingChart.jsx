@@ -36,7 +36,7 @@ function ProfessionalRankingChart({ mes }) {
                 const data = response.data;
 
                 setChartData({
-                    labels: data.map(item => item.rol), // "Enfermeria", "Medico", etc.
+                    labels: data.map(item => item.profesional), // "Enfermeria", "Medico", etc.
                     datasets: [
                         {
                         label: '% de Cumplimiento',
