@@ -21,17 +21,25 @@ exports.unificarDatosHistoricos = async () => {
 // Endpoint 1: Obtener el resumen del cumplimiento global
 exports.getGlobalCompliance = async (req, res) => {
     try {
-        const { mes } = req.query; // Capturamos el mes (ej: "03", "07", "11")
+        const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
 
-       // 1. Filtro de fecha mejorado: Ahora usa el campo 'fecha' y detecta el año actual
+        // Creamos un array de condiciones para el $and
+        let condiciones = [];
+
+        // Si envían mes, extraemos el mes de la fecha
         if (mes) {
-            const anioActual = new Date().getFullYear(); // Dinámico para que sirva en 2026
-            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
-            
-            // Filtramos por el nuevo campo 'fecha' (unificado)
-            filtroFecha = { fecha: { $gte: inicio, $lte: fin } }; 
+            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
+        }
+
+        // Si envían año, extraemos el año de la fecha
+        if (anio) {
+            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+        }
+
+        // Si hay alguna condición, usamos $expr para filtrar
+        if (condiciones.length > 0) {
+            filtroMatch = { $expr: { $and: condiciones } };
         }
 
       const stats = await Observacion.aggregate([ //pipeline de agregacion
