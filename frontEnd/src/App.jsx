@@ -15,13 +15,13 @@ import { jwtDecode } from 'jwt-decode';
 const Dashboard = ({ mes, setMes }) => {
   return(
       <div className="dashboard-layout">
-      <Header mes={mes} setMes={setMes}/>      
+      <Header mes={mes} setMes={setMes} anio={anio} setAnio={setAnio}/>      
     <main className="main-content">
        
      {/*Fila superior: Resumen Global*/} 
        
         <section className="kpi-section">
-           <GlobalComplianceCard mes={mes} />
+           <GlobalComplianceCard mes={mes} anio={anio} />
         </section>
      
      {/* Fila de Gráficos */}
@@ -75,6 +75,7 @@ const RutaPorRol = ({ children, rolPermitiido }) => {
 
 function App() {
   const [mes, setMes] = useState(""); // "" significa "Ver todos"
+  const [anio, setAnio] = useState("2026")
 
   return (
     <Router>

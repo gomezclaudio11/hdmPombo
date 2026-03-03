@@ -71,6 +71,12 @@ function Header({ mes, setMes }) {
                         <option value="11">Noviembre</option>
                         <option value="12">Diciembre</option>
                     </select>
+
+                    {/* Selector de Año */}
+                    <select value={anio} onChange={(e) => setAnio(e.target.value)}>
+                    <option value="2025">2025</option>
+                    <option value="2026">2026</option>
+                    </select>
                 </div>
 
                 <button onClick={handleLogout} className="logout-button" style={{ backgroundColor: '#dc3545', color: 'white', border: 'none', padding: '8px 15px', borderRadius: '5px', cursor: 'pointer' }}>
