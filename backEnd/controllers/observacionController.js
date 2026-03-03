@@ -1,6 +1,6 @@
 const Observacion = require("../models/Observacion")
 
-// Función para unificar datos (puedes ponerla en tu controlador y llamarla una vez)
+// Función para unificar datos LLAMARLA UNA VEZ
 exports.unificarDatosHistoricos = async () => {
     const datosViejos = await Observacion.find({ sector: { $exists: false } });
 
@@ -24,70 +24,37 @@ exports.getGlobalCompliance = async (req, res) => {
         const { mes } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
 
-        // Si el usuario elige un mes, filtramos el rango de fechas para el año 2025
+       // 1. Filtro de fecha mejorado: Ahora usa el campo 'fecha' y detecta el año actual
         if (mes) {
-            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } }; //operadores de 
-            // comparación fundamentales para filtrar datos, Greater Than or Equal, Less than or Equal
+            const anioActual = new Date().getFullYear(); // Dinámico para que sirva en 2026
+            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
+            
+            // Filtramos por el nuevo campo 'fecha' (unificado)
+            filtroFecha = { fecha: { $gte: inicio, $lte: fin } }; 
         }
+
       const stats = await Observacion.aggregate([ //pipeline de agregacion
         { $match: filtroFecha }, //filtro
         {
-                $facet: { //analisis multidimencional en una sola consulta
-                    // Calculamos el total de oportunidades (Momento 1 + Momento 2 si existe)
+                $facet: { 
+                    // Ahora es mucho más simple: 1 documento = 1 oportunidad
                     "totalOportunidades": [
-                        {
-                            $project: { //en cada fila revisa dos campos
-                                counts: {
-                                    $sum: [
-                                        { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] },
-                                        { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
-                                        //Si la fila tiene los dos momentos llenos, counts será 2.
-                                        // Si solo tiene el primero, counts será 1.
-                                        // Si están vacíos, será 0.
-                                    ]
-                                }
-                            }
-                        },
-                        { $group: { _id: null, total: { $sum: "$counts" } } }
-                        //_id: null: Significa no me agrupes por categorías, júntame todo en una sola bolsa
+                        { $count: "total" }
                     ],
-                    // Calculamos el total de acciones efectivas (Accion 1 + Accion 2)
                     "totalCumplimientos": [
                         {
-                            $project: {
-                                cumplimientos: {
-                                    $sum: [
-                                        { 
-                                            $cond: [
-                                                { $and: [ //Es un operador lógico que exige 
-                                                // que todas las condiciones de la lista sean
-                                                //verdaderas. evita falsos positivos
-                                                    { $ifNull: ["$Momento que observa", false] },
-                                                    { $ne: ["$Accion que realizo", "Ninguna"] }, //not equal
-                                                    { $ne: ["$Accion que realizo", null] }
-                                                ]}, 1, 0 
-                                            ] 
-                                        },
-                                        { 
-                                            $cond: [
-                                                { $and: [
-                                                    { $ifNull: ["$Momento que observa2", false] },
-                                                    { $ne: ["$Acción que realizo2", "Ninguna"] },
-                                                    { $ne: ["$Acción que realizo2", null] }
-                                                ]}, 1, 0 
-                                            ] 
-                                        }
-                                    ]
-                                }
+                            $match: {
+                                // Filtramos los que NO son 'Ninguna' y que tengan una acción
+                                accion: { $exists: true, $ne: "Ninguna", $ne: null }
                             }
                         },
-                        { $group: { _id: null, total: { $sum: "$cumplimientos" } } }
+                        { $count: "total" }
                     ]
                 }
             }
         ]);
+        // Extraemos los resultados con seguridad (Optional Chaining)
         const totalOportunidades = stats[0].totalOportunidades[0]?.total || 0;
         const totalCumplimiento = stats[0].totalCumplimientos[0]?.total || 0;
         /**
@@ -142,85 +109,68 @@ y contar cumplimientos) sobre la misma colección de datos en una sola pasada.
 Es mucho más rápido y eficiente
  */
 
-// Endpoint: Obtener estadísticas de cumplimiento agrupadas por sector
+// Endpoint 2: Obtener estadísticas de cumplimiento agrupadas por sector
 exports.getComplianceBySector = async (req, res) => {
     try {
         const { mes } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
 
-        // Si el usuario elige un mes, filtramos el rango de fechas para el año 2025
+        // Filtro de fecha dinamico x actual
         if (mes) {
-            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+            const anioActual = new Date().getFullYear();
+            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
         }
+
         const statsBySector = await Observacion.aggregate([
             { $match: filtroFecha }, // 1. FILTRO POR MES (Si no hay mes, trae todos)
+            
+            // 2. Agrupamos directamente por el campo 'sector' (nombre nuevo)
             {
-            $project: {
-                    sector: "$Sector en el que realizo la observación",
-                    // Calculamos cuántas oportunidades hubo en esta fila (1 o 2)
-                    oportunidadesEnFila: {
-                        $sum: [
-                            { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] },
-                            { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
-                        ]
-                    },
-                    // Calculamos cuántos cumplimientos hubo en esta fila (0, 1 o 2)
-                    cumplimientosEnFila: {
-                        $sum: [
+                $group: {
+                    _id: "$sector", 
+                    totalOportunidades: { $sum: 1 }, // Cada documento cuenta como 1
+                    totalCumplimientos: {
+                        $sum: {
+                            $cond: [
+                                { $and: [
+                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", "Ninguna"] },
+                                    { $ne: ["$accion", null] }
+                                ]},
+                                1, 0
+                            ]
+                        }
+                    }
+                }
+            },
+
+            // 3. Proyectamos y calculamos el porcentaje
+            {
+                $project: {
+                    _id: 0,
+                    sector: "$_id",
+                    totalOportunidades: 1,
+                    totalCumplimientos: 1,
+                    porcentajeCumplimiento: {
+                        $cond: [
+                            { $eq: ["$totalOportunidades", 0] },
+                            0,
                             { 
-                                $cond: [
-                                    { $and: [
-                                        { $ifNull: ["$Momento que observa", false] }, // Debe haber momento
-                                        { $ne: ["$Accion que realizo", "Ninguna"] },
-                                        { $ne: ["$Accion que realizo", null] }
-                                    ]}, 1, 0 
-                                ] 
-                            },
-                            { 
-                                $cond: [
-                                    { $and: [
-                                        { $ifNull: ["$Momento que observa2", false] }, // Debe haber momento
-                                        { $ne: ["$Acción que realizo2", "Ninguna"] },
-                                        { $ne: ["$Acción que realizo2", null] }
-                                    ]}, 1, 0 
+                                $round: [
+                                    { $multiply: [{ $divide: ["$totalCumplimientos", "$totalOportunidades"] }, 100] }, 
+                                    2
                                 ] 
                             }
                         ]
                     }
                 }
             },
-            {
-                // Ahora agrupamos por sector sumando los totales calculados arriba
-                $group: {
-                    _id: "$sector", //le ordenamos a mongo que junte los que tengan el mismo sector
-                    totalOportunidades: { $sum: "$oportunidadesEnFila" },
-                    totalCumplimientos: { $sum: "$cumplimientosEnFila" }
-                }
-            },
-            {
-                $project: {
-                    sector: "$_id",
-                    totalOportunidades: 1,
-                    totalCumplimientos: 1,
-                    porcentajeCumplimiento: {
-                        $multiply: [
-                            { 
-                                $cond: [
-                                    { $eq: ["$totalOportunidades", 0] }, 
-                                    0, 
-                                    { $divide: ["$totalCumplimientos", "$totalOportunidades"] }
-                                ] // la division da 0.65 x eso multiplicamos x 100
-                            },
-                            100
-                        ]
-                    }
-                }
-            },
-            { $sort: { porcentajeCumplimiento: -1 } } //de mayor a menor
-        ]);
 
+            // 4. Ordenamos de mayor a menor cumplimiento
+            { $sort: { porcentajeCumplimiento: -1 } }
+        ]);
         res.json(statsBySector);    
     } catch (error) {
         console.error('Error al obtener datos por sector:', error);
@@ -230,7 +180,7 @@ exports.getComplianceBySector = async (req, res) => {
 
 
 
-// Endpoint: Obtener estadísticas de cumplimiento agrupadas por Rol Profesional
+// Endpoint 3: Obtener estadísticas de cumplimiento agrupadas por Rol Profesional
 exports.getComplianceByProfessional = async (req, res) => {
     try {
         const { mes } = req.query; // 1. Capturamos el mes de la URL
@@ -238,80 +188,58 @@ exports.getComplianceByProfessional = async (req, res) => {
 
         // 2. Configuramos el filtro si existe un mes
         if (mes) {
-            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+            const anioActual = new Date().getFullYear();
+            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
         }
+
         const statsByProfessional = await Observacion.aggregate([
             { $match: filtroFecha },
             {
-                // 1. Calculamos oportunidades y cumplimientos por cada fila
+              $group: {
+                    _id: "$profesional", 
+                    totalOportunidades: { $sum: 1 }, // 1 doc = 1 oportunidad
+                    totalCumplimientos: {
+                        $sum: {
+                            $cond: [
+                                { $and: [
+                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", "Ninguna"] },
+                                    { $ne: ["$accion", null] }
+                                ]},
+                                1, 0
+                            ]
+                        }
+                    }
+                }
+            },
+
+            // 3. Proyectamos resultados y calculamos el porcentaje redondeado
+            {
                 $project: {
-                    rol: "$Personal al que observo",
-                    oportunidadesEnFila: {
-                        $sum: [
-                            { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] },
-                            { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
-                        ]
-                    },
-                    cumplimientosEnFila: {
-                        $sum: [
+                    _id: 0,
+                    profesional: "$_id",
+                    totalOportunidades: 1,
+                    totalCumplimientos: 1,
+                    porcentajeCumplimiento: {
+                        $cond: [
+                            { $eq: ["$totalOportunidades", 0] },
+                            0,
                             { 
-                                // Validación: Acción 1 válida solo si existe Momento 1
-                                $cond: [
-                                    { $and: [
-                                        { $ifNull: ["$Momento que observa", false] },
-                                        { $ne: ["$Accion que realizo", "Ninguna"] },
-                                        { $ne: ["$Accion que realizo", null] }
-                                    ]}, 1, 0 
-                                ] 
-                            },
-                            { 
-                                // Validación: Acción 2 válida solo si existe Momento 2
-                                $cond: [
-                                    { $and: [
-                                        { $ifNull: ["$Momento que observa2", false] },
-                                        { $ne: ["$Acción que realizo2", "Ninguna"] },
-                                        { $ne: ["$Acción que realizo2", null] }
-                                    ]}, 1, 0 
+                                $round: [
+                                    { $multiply: [{ $divide: ["$totalCumplimientos", "$totalOportunidades"] }, 100] }, 
+                                    2
                                 ] 
                             }
                         ]
                     }
                 }
             },
-            {
-                // 2. Agrupamos por el rol profesional
-                $group: {
-                    _id: "$rol",
-                    totalOportunidades: { $sum: "$oportunidadesEnFila" },
-                    totalCumplimientos: { $sum: "$cumplimientosEnFila" }
-                }
-            },
-            {
-                // 3. Calculamos el porcentaje final
-                $project: {
-                    rol: "$_id",
-                    totalOportunidades: 1,
-                    totalCumplimientos: 1,
-                    porcentajeCumplimiento: {
-                        $multiply: [
-                            { 
-                                $cond: [
-                                    { $eq: ["$totalOportunidades", 0] }, 
-                                    0, 
-                                    { $divide: ["$totalCumplimientos", "$totalOportunidades"] }
-                                ] 
-                            },
-                            100
-                        ]
-                    }
-                }
-            },
-            // 4. Ordenar para el ranking (del mejor al peor cumplimiento)
-            { $sort: { porcentajeCumplimiento: -1 } }
-        ]);
 
+            // 4. Ordenamos para el Ranking: del más cumplidor al menos
+            { $sort: { porcentajeCumplimiento: -1 } }
+        ]);  
         res.json(statsByProfessional);
     } catch (error) {
         console.error('Error al obtener datos por profesional:', error);
@@ -319,7 +247,7 @@ exports.getComplianceByProfessional = async (req, res) => {
     }
 };
 
-// Endpoint: Obtener cumplimiento según el Momento de la observación
+// Endpoint 4: Obtener cumplimiento según el Momento de la observación
 exports.getComplianceByMoment = async (req, res) => {
     try {
         const { mes } = req.query; // 1. Capturamos el mes
@@ -327,70 +255,56 @@ exports.getComplianceByMoment = async (req, res) => {
 
         // 2. Definimos el rango de fecha para 2025
         if (mes) {
-            const inicio = new Date(`2025-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`2025-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { "Marca temporal": { $gte: inicio, $lte: fin } };
+           const anioActual = new Date().getFullYear();
+            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
         }
         const statsByMoment = await Observacion.aggregate([
             { $match: filtroFecha },
              {
-                // 1. Proyectamos las dos posibles oportunidades de la fila por separado
-                $project: {
-                    oportunidades: [
-                        {
-                            momento: "$Momento que observa",
-                            cumplio: {
-                                $cond: [
-                                    { $and: [
-                                        { $ne: ["$Accion que realizo", "Ninguna"] },
-                                        { $ne: ["$Accion que realizo", null] },
-                                        { $ne: ["$Momento que observa", null] }
-                                    ]}, 1, 0
-                                ]
-                            },
-                            existe: { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] }
-                        },
-                        {
-                            momento: "$Momento que observa2",
-                            cumplio: {
-                                $cond: [
-                                    { $and: [
-                                        { $ne: ["$Acción que realizo2", "Ninguna"] },
-                                        { $ne: ["$Acción que realizo2", null] },
-                                        { $ne: ["$Momento que observa2", null] }
-                                    ]}, 1, 0
-                                ]
-                            },
-                            existe: { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
-                        }
-                    ]
-                }
-            },
-            { $unwind: "$oportunidades" }, // 2. Convertimos el array en documentos individuales
-            { $match: { "oportunidades.existe": 1 } }, // 3. Filtramos solo donde realmente hubo un momento registrado
-            {
-                // 4. Agrupamos por el nombre del momento
-                $group: {
-                    _id: "$oportunidades.momento",
+               $group: {
+                    _id: "$momento", 
                     totalOportunidades: { $sum: 1 },
-                    totalCumplimientos: { $sum: "$oportunidades.cumplio" }
+                    totalCumplimientos: {
+                        $sum: {
+                            $cond: [
+                                { $and: [
+                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", "Ninguna"] },
+                                    { $ne: ["$accion", null] }
+                                ]},
+                                1, 0
+                            ]
+                        }
+                    }
                 }
             },
+
+            // 3. Proyectamos y redondeamos
             {
-                // 5. Calculamos el porcentaje final
                 $project: {
+                    _id: 0,
                     momento: "$_id",
                     totalOportunidades: 1,
                     totalCumplimientos: 1,
                     porcentajeCumplimiento: {
-                        $multiply: [
-                            { $divide: ["$totalCumplimientos", "$totalOportunidades"] },
-                            100
+                        $cond: [
+                            { $eq: ["$totalOportunidades", 0] },
+                            0,
+                            { 
+                                $round: [
+                                    { $multiply: [{ $divide: ["$totalCumplimientos", "$totalOportunidades"] }, 100] }, 
+                                    2
+                                ] 
+                            }
                         ]
                     }
                 }
             },
-            { $sort: { momento: 1 } } // Ordenamos por nombre de momento              
+
+            // 4. Ordenamos por nombre del momento (1 al 5)
+            { $sort: { momento: 1 } }
         ]);
 
         res.json(statsByMoment);
@@ -400,47 +314,47 @@ exports.getComplianceByMoment = async (req, res) => {
     }
 };
 
-// Endpoint: Obtener el uso de las diferentes técnicas de higiene
+// Endpoint 5: Obtener el uso de las diferentes técnicas de higiene
 exports.getTechniqueUsage = async (req, res) => {
     try {
+        // Podés agregar el filtro de mes aquí también si querés que el gráfico de torta cambie por mes
+        const { mes } = req.query;
+        let filtroFecha = {};
+
+        if (mes) {
+            const anioActual = new Date().getFullYear();
+            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
+        }
         const statsByTechnique = await Observacion.aggregate([
             {
-               $facet: {
-                    // Conteo de la primera columna de técnicas
-                    "tecnica1": [
-                        { $match: { "Accion que realizo": { $nin: [null, "Ninguna", ""] } } },
-                        { $group: { _id: "$Accion que realizo", cantidad: { $sum: 1 } } }
-                    ],
-                    // Conteo de la segunda columna de técnicas
-                    "tecnica2": [
-                        { $match: { "Acción que realizo2": { $nin: [null, "Ninguna", ""] } } },
-                        { $group: { _id: "$Acción que realizo2", cantidad: { $sum: 1 } } }
-                    ]
-                }
+              $match: { 
+                    ...filtroFecha,
+                    accion: { $nin: [null, "Ninguna", ""] } 
+                } 
             },
+
+            // 2. Agrupamos por el nombre de la técnica
             {
-                // Unimos ambos resultados en un solo array
-                $project: {
-                    combined: { $concatArrays: ["$tecnica1", "$tecnica2"] }
-                }
-            },
-            { $unwind: "$combined" },
-            {
-                // Agrupamos nuevamente para sumar las cantidades de ambas columnas
                 $group: {
-                    _id: "$combined._id",
-                    total: { $sum: "$combined.cantidad" }
+                    _id: "$accion",
+                    cantidad: { $sum: 1 }
                 }
             },
+
+            // 3. Formateamos la salida
             {
                 $project: {
+                    _id: 0,
                     tecnica: "$_id",
-                    cantidad: "$total",
-                    _id: 0
+                    cantidad: 1
                 }
             },
+
+            // 4. Ordenamos por los más usados
             { $sort: { cantidad: -1 } }
-        ]);
+        ]); 
 
         res.json(statsByTechnique);
     } catch (error) {
@@ -449,75 +363,71 @@ exports.getTechniqueUsage = async (req, res) => {
     }
 };
 
-// Endpoint: Obtener cumplimiento agrupado por Turno
+// Endpoint 6: Obtener cumplimiento agrupado por Turno
 exports.getComplianceByShift = async (req, res) => {
     try {
+        const { mes } = req.query;
+        let filtroFecha = {};
+
+        // 1. Filtro dinámico: Año actual y campo 'fecha' unificado
+        if (mes) {
+            const anioActual = new Date().getFullYear();
+            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
+            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
+        }
+
         const statsByShift = await Observacion.aggregate([
             {
-               $project: {
-                    turno: "$Turno",
-                    // 1. Calculamos oportunidades totales en la fila (Momento 1 + Momento 2)
-                    oportunidadesEnFila: {
-                        $sum: [
-                            { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] },
-                            { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
-                        ]
-                    },
-                    // 2. Calculamos cumplimientos totales en la fila (Accion 1 + Acción 2)
-                    cumplimientosEnFila: {
-                        $sum: [
+              $match: { 
+                    ...filtroFecha,
+                    turno: { $ne: null, $ne: "" } 
+                } 
+            },
+
+            // 3. Agrupamos directamente por el campo 'turno'
+            {
+                $group: {
+                    _id: "$turno", 
+                    totalOportunidades: { $sum: 1 }, // 1 doc = 1 oportunidad
+                    totalCumplimientos: {
+                        $sum: {
+                            $cond: [
+                                { $and: [
+                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", "Ninguna"] },
+                                    { $ne: ["$accion", null] }
+                                ]},
+                                1, 0
+                            ]
+                        }
+                    }
+                }
+            },
+
+            // 4. Proyectamos resultados y calculamos el porcentaje redondeado
+            {
+                $project: {
+                    _id: 0,
+                    turno: "$_id",
+                    totalOportunidades: 1,
+                    totalCumplimientos: 1,
+                    porcentajeCumplimiento: {
+                        $cond: [
+                            { $eq: ["$totalOportunidades", 0] },
+                            0,
                             { 
-                                $cond: [
-                                    { $and: [
-                                        { $ne: ["$Accion que realizo", "Ninguna"] },
-                                        { $ne: ["$Accion que realizo", null] }
-                                    ]}, 1, 0 
-                                ] 
-                            },
-                            { 
-                                $cond: [
-                                    { $and: [
-                                        { $ne: ["$Acción que realizo2", "Ninguna"] },
-                                        { $ne: ["$Acción que realizo2", null] }
-                                    ]}, 1, 0 
+                                $round: [
+                                    { $multiply: [{ $divide: ["$totalCumplimientos", "$totalOportunidades"] }, 100] }, 
+                                    2
                                 ] 
                             }
                         ]
                     }
                 }
             },
-            {
-                // 3. Limpiamos registros sin turno antes de agrupar
-                $match: { "turno": { $ne: null, $ne: "" } }
-            },
-            {
-                // 4. Agrupamos por Turno sumando los totales
-                $group: {
-                    _id: "$turno",
-                    totalOportunidades: { $sum: "$oportunidadesEnFila" },
-                    totalCumplimientos: { $sum: "$cumplimientosEnFila" }
-                }
-            },
-            {
-                // 5. Calculamos el porcentaje final
-                $project: {
-                    turno: "$_id",
-                    totalOportunidades: 1,
-                    totalCumplimientos: 1,
-                    porcentajeCumplimiento: {
-                        $multiply: [
-                            { 
-                                $cond: [
-                                    { $eq: ["$totalOportunidades", 0] }, 
-                                    0, 
-                                    { $divide: ["$totalCumplimientos", "$totalOportunidades"] }
-                                ] 
-                            },
-                            100
-                        ]
-                    }
-                }
-            },
+
+            // 5. Ordenamos por porcentaje de cumplimiento
             { $sort: { porcentajeCumplimiento: -1 } }
         ]);
 
@@ -528,84 +438,71 @@ exports.getComplianceByShift = async (req, res) => {
     }
 };
 
-//Endpoint dinamico
+//Endpoint 7 dinamico
 exports.getStaffComplianceBySector = async (req, res) => {
     try {
         // Capturamos el nombre desde la URL
         const { nombreSector } = req.params; 
+        const { mes } = req.query; // Capturamos el mes opcional de la URL (?mes=03)
+        
+        let filtroMatch = { sector: nombreSector };
+
+        // 1. Filtro de fecha si se proporciona mes
+        if (mes) {
+            const anioActual = new Date().getFullYear();
+            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
+            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
+            filtroMatch.fecha = { $gte: inicio, $lte: fin };
+        }
 
         const stats = await Observacion.aggregate([
+            // 2. Filtramos por el sector y la fecha (muy eficiente)
+            { $match: filtroMatch },
+            // 3. Agrupamos por personal (usando el campo unificado)
             {
-               // 1. Filtramos primero por el sector solicitado (Eficiencia)
-                $match: { 
-                    "Sector en el que realizo la observación": nombreSector 
+                $group: {
+                    _id: "$profesional", // Nombre del campo unificado
+                    totalOportunidades: { $sum: 1 },
+                    totalCumplimientos: {
+                        $sum: {
+                            $cond: [
+                                { $and: [
+                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", "Ninguna"] },
+                                    { $ne: ["$accion", null] }
+                                ]},
+                                1, 0
+                            ]
+                        }
+                    }
                 }
             },
+
+            // 4. Formateamos y redondeamos
             {
-                // 2. Proyectamos las dos oportunidades de la fila
                 $project: {
-                    personal: "$Personal al que observo",
-                    oportunidadesEnFila: {
-                        $sum: [
-                            { $cond: [{ $ifNull: ["$Momento que observa", false] }, 1, 0] },
-                            { $cond: [{ $ifNull: ["$Momento que observa2", false] }, 1, 0] }
-                        ]
-                    },
-                    cumplimientosEnFila: {
-                        $sum: [
+                    _id: 0,
+                    personal: "$_id",
+                    totalOportunidades: 1,
+                    totalCumplimientos: 1,
+                    porcentajeCumplimiento: {
+                        $cond: [
+                            { $eq: ["$totalOportunidades", 0] },
+                            0,
                             { 
-                                $cond: [
-                                    { $and: [
-                                        { $ifNull: ["$Momento que observa", false] },
-                                        { $ne: ["$Accion que realizo", "Ninguna"] },
-                                        { $ne: ["$Accion que realizo", null] }
-                                    ]}, 1, 0 
-                                ] 
-                            },
-                            { 
-                                $cond: [
-                                    { $and: [
-                                        { $ifNull: ["$Momento que observa2", false] },
-                                        { $ne: ["$Acción que realizo2", "Ninguna"] },
-                                        { $ne: ["$Acción que realizo2", null] }
-                                    ]}, 1, 0 
+                                $round: [
+                                    { $multiply: [{ $divide: ["$totalCumplimientos", "$totalOportunidades"] }, 100] }, 
+                                    2
                                 ] 
                             }
                         ]
                     }
                 }
             },
-            {
-                // 3. Agrupamos por el Personal observado dentro de ese sector
-                $group: {
-                    _id: "$personal",
-                    totalOportunidades: { $sum: "$oportunidadesEnFila" },
-                    totalCumplimientos: { $sum: "$cumplimientosEnFila" }
-                }
-            },
-            {
-                // 4. Calculamos el porcentaje final por persona
-                $project: {
-                    personal: "$_id",
-                    totalOportunidades: 1,
-                    totalCumplimientos: 1,
-                    porcentajeCumplimiento: {
-                        $multiply: [
-                            { 
-                                $cond: [
-                                    { $eq: ["$totalOportunidades", 0] }, 
-                                    0, 
-                                    { $divide: ["$totalCumplimientos", "$totalOportunidades"] }
-                                ] 
-                            },
-                            100
-                        ]
-                    }
-                }
-            },
+
+            // 5. Ordenamos: los mejores arriba
             { $sort: { porcentajeCumplimiento: -1 } }
         ]);
-
         res.json(stats);
     } catch (error) {
         res.status(500).json({ message: 'Error al procesar datos del sector' });
