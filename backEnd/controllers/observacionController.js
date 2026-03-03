@@ -46,7 +46,7 @@ exports.getGlobalCompliance = async (req, res) => {
                         {
                             $match: {
                                 // Filtramos los que NO son 'Ninguna' y que tengan una acción
-                                accion: { $exists: true, $ne: "Ninguna", $ne: null }
+                                accion: { $exists: true, $ne: "Ninguna", $nin: [null, ""] }
                             }
                         },
                         { $count: "total" }
@@ -135,7 +135,7 @@ exports.getComplianceBySector = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", undefined] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] }
                                 ]},
@@ -204,7 +204,7 @@ exports.getComplianceByProfessional = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", undefined] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] }
                                 ]},
@@ -270,7 +270,7 @@ exports.getComplianceByMoment = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", undefined] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] }
                                 ]},
@@ -394,7 +394,7 @@ exports.getComplianceByShift = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", undefined] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] }
                                 ]},
@@ -467,7 +467,7 @@ exports.getStaffComplianceBySector = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion"] },
+                                    { $ne: ["$accion", undefined] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] }
                                 ]},
