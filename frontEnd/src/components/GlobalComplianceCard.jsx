@@ -10,18 +10,19 @@ import clienteAxios from '../api/axiosConfig';
  * Componente Tarjeta de Cumplimiento Global
  * Fetches data from /api/observaciones/global and displays the result.
  */
-function GlobalComplianceCard({ mes }) {
+function GlobalComplianceCard({ mes, anio }) {
     const [data, setData] = useState(null);// cuando la aplicacion arranca no hay datos
     //xq la peticion todavia no se hizo al poner null decimos todavia no tengo info
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [ anio, setAnio ] = useState("2025")
 
     useEffect(() => {
         // Función asíncrona para cargar los datos
         const fetchData = async () => {
             try {
                 // Realizar la petición al endpoint de cumplimiento global
-                const response = await clienteAxios.get(`/observaciones/global-compliance${mes ? `?mes=${mes}` : ''}`); //ordenador ternario / query parameter
+                const response = await clienteAxios.get(`/observaciones/global-compliance${mes ? `?mes=${mes}` : ''}&anio=${anio}`); //ordenador ternario / query parameter
                 
                 // Guardar solo los datos relevantes (porcentaje, total, etc.)
                 setData(response.data);
