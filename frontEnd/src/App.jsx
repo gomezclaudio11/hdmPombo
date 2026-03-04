@@ -12,7 +12,7 @@ import FormularioObservacion from './components/FormularioObservacion';
 import { jwtDecode } from 'jwt-decode';
 
 //1. componente interno Dashboard
-const Dashboard = ({ mes, setMes }) => {
+const Dashboard = ({ mes, setMes, anio, setAnio }) => {
   return(
       <div className="dashboard-layout">
       <Header mes={mes} setMes={setMes} anio={anio} setAnio={setAnio}/>      
@@ -27,19 +27,19 @@ const Dashboard = ({ mes, setMes }) => {
      {/* Fila de Gráficos */}
         <section className="charts-grid">
           <div className="chart-container">
-            <SectorComplianceChart mes={mes}/>
+            <SectorComplianceChart mes={mes} anio={anio}/>
           </div>
          <div className="chart-container">
-            <ProfessionalRankingChart mes={mes}/>
+            <ProfessionalRankingChart mes={mes} anio={anio}/>
           </div>
         </section>
         <section className="full-width-chart">
           <div className="chart-container">
-            <MomentComplianceChart mes={mes}/>
+            <MomentComplianceChart mes={mes} anio={anio}/>
           </div>
         </section>
         <section className="full-width-chart">
-          <SectorDetailDashboard />
+          <SectorDetailDashboard mes={mes} anio={anio}/>
         </section>
         </main>
         </div>
@@ -75,7 +75,7 @@ const RutaPorRol = ({ children, rolPermitiido }) => {
 
 function App() {
   const [mes, setMes] = useState(""); // "" significa "Ver todos"
-  const [anio, setAnio] = useState("2026")
+  const [anio, setAnio] = useState("2025")
 
   return (
     <Router>
@@ -88,7 +88,7 @@ function App() {
           path='/dashboard'
           element={
             <RutaProtegida>
-              <Dashboard mes={mes} setMes={setMes} />
+              <Dashboard mes={mes} setMes={setMes} anio={anio} setAnio={setAnio} />
             </RutaProtegida>
           }
           />

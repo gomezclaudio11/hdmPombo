@@ -15,7 +15,6 @@ function GlobalComplianceCard({ mes, anio }) {
     //xq la peticion todavia no se hizo al poner null decimos todavia no tengo info
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [ anio, setAnio ] = useState("2025")
 
     useEffect(() => {
         // Función asíncrona para cargar los datos
@@ -36,7 +35,7 @@ function GlobalComplianceCard({ mes, anio }) {
         };
 
         fetchData();
-    }, [mes]); 
+    }, [mes, anio]); 
 
     if (loading) {
         return <div className="card">Cargando datos...</div>;

@@ -9,7 +9,7 @@ const handleLogout = () => {
   window.location.href = "/login"
 }
 
-function Header({ mes, setMes }) {
+function Header({ mes, setMes, anio, setAnio }) {
   // 1. Extraemos el usuario del token para saber su rol
     const token = localStorage.getItem('token');
     let user = null;
