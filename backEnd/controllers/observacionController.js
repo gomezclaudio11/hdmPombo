@@ -31,12 +31,12 @@ exports.getGlobalCompliance = async (req, res) => {
         console.log(`Buscando Filtros -> Mes: ${mes}, Año: ${anio}`);
 
         // Si envían mes, extraemos el mes de la fecha
-        if (mes && mes !== "") {
+        if (mes && mes !== "" && mes !== "undefined") {
             condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
         }
 
         // Si envían año, extraemos el año de la fecha
-        if (anio && anio !== "") {
+        if (anio && anio !== "" && anio !== "undefined") {
             condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
         }
 
