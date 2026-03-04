@@ -27,13 +27,16 @@ exports.getGlobalCompliance = async (req, res) => {
         // Creamos un array de condiciones para el $and
         let condiciones = [];
 
+        // DEBUG: Esto saldrá en los logs de Render
+        console.log(`Buscando Filtros -> Mes: ${mes}, Año: ${anio}`);
+
         // Si envían mes, extraemos el mes de la fecha
-        if (mes) {
+        if (mes && mes !== "") {
             condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
         }
 
         // Si envían año, extraemos el año de la fecha
-        if (anio) {
+        if (anio && anio !== "") {
             condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
         }
 
