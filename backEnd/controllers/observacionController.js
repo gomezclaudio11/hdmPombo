@@ -123,15 +123,20 @@ Es mucho más rápido y eficiente
 // Endpoint 2: Obtener estadísticas de cumplimiento agrupadas por sector
 exports.getComplianceBySector = async (req, res) => {
     try {
-        const { mes } = req.query; // Capturamos el mes (ej: "03", "07", "11")
+         const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
+        let condiciones = [];
 
-        // Filtro de fecha dinamico x actual
-        if (mes) {
-            const anioActual = new Date().getFullYear();
-            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
+        if (mes && mes !== "" && mes !== "undefined") {
+            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
+        }
+
+        if (anio && anio !== "" && anio !== "undefined") {
+            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+        }
+
+        if (condiciones.length > 0) {
+            filtroMatch = { $expr: { $and: condiciones } };
         }
 
         const statsBySector = await Observacion.aggregate([
@@ -194,15 +199,20 @@ exports.getComplianceBySector = async (req, res) => {
 // Endpoint 3: Obtener estadísticas de cumplimiento agrupadas por Rol Profesional
 exports.getComplianceByProfessional = async (req, res) => {
     try {
-        const { mes } = req.query; // 1. Capturamos el mes de la URL
+           const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
+        let condiciones = [];
 
-        // 2. Configuramos el filtro si existe un mes
-        if (mes) {
-            const anioActual = new Date().getFullYear();
-            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
+        if (mes && mes !== "" && mes !== "undefined") {
+            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
+        }
+
+        if (anio && anio !== "" && anio !== "undefined") {
+            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+        }
+
+        if (condiciones.length > 0) {
+            filtroMatch = { $expr: { $and: condiciones } };
         }
 
         const statsByProfessional = await Observacion.aggregate([
@@ -261,16 +271,22 @@ exports.getComplianceByProfessional = async (req, res) => {
 // Endpoint 4: Obtener cumplimiento según el Momento de la observación
 exports.getComplianceByMoment = async (req, res) => {
     try {
-        const { mes } = req.query; // 1. Capturamos el mes
+          const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
+        let condiciones = [];
 
-        // 2. Definimos el rango de fecha para 2025
-        if (mes) {
-           const anioActual = new Date().getFullYear();
-            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
+        if (mes && mes !== "" && mes !== "undefined") {
+            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
         }
+
+        if (anio && anio !== "" && anio !== "undefined") {
+            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+        }
+
+        if (condiciones.length > 0) {
+            filtroMatch = { $expr: { $and: condiciones } };
+        }
+
         const statsByMoment = await Observacion.aggregate([
             { $match: filtroFecha },
              {
@@ -328,16 +344,22 @@ exports.getComplianceByMoment = async (req, res) => {
 // Endpoint 5: Obtener el uso de las diferentes técnicas de higiene
 exports.getTechniqueUsage = async (req, res) => {
     try {
-        // Podés agregar el filtro de mes aquí también si querés que el gráfico de torta cambie por mes
-        const { mes } = req.query;
+           const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
+        let condiciones = [];
 
-        if (mes) {
-            const anioActual = new Date().getFullYear();
-            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
+        if (mes && mes !== "" && mes !== "undefined") {
+            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
         }
+
+        if (anio && anio !== "" && anio !== "undefined") {
+            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+        }
+
+        if (condiciones.length > 0) {
+            filtroMatch = { $expr: { $and: condiciones } };
+        }
+
         const statsByTechnique = await Observacion.aggregate([
             {
               $match: { 
@@ -377,15 +399,20 @@ exports.getTechniqueUsage = async (req, res) => {
 // Endpoint 6: Obtener cumplimiento agrupado por Turno
 exports.getComplianceByShift = async (req, res) => {
     try {
-        const { mes } = req.query;
+           const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         let filtroFecha = {};
+        let condiciones = [];
 
-        // 1. Filtro dinámico: Año actual y campo 'fecha' unificado
-        if (mes) {
-            const anioActual = new Date().getFullYear();
-            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
-            filtroFecha = { fecha: { $gte: inicio, $lte: fin } };
+        if (mes && mes !== "" && mes !== "undefined") {
+            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
+        }
+
+        if (anio && anio !== "" && anio !== "undefined") {
+            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+        }
+
+        if (condiciones.length > 0) {
+            filtroMatch = { $expr: { $and: condiciones } };
         }
 
         const statsByShift = await Observacion.aggregate([
@@ -454,16 +481,20 @@ exports.getStaffComplianceBySector = async (req, res) => {
     try {
         // Capturamos el nombre desde la URL
         const { nombreSector } = req.params; 
-        const { mes } = req.query; // Capturamos el mes opcional de la URL (?mes=03)
-        
-        let filtroMatch = { sector: nombreSector };
+           const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
+        let filtroFecha = {};
+        let condiciones = [];
 
-        // 1. Filtro de fecha si se proporciona mes
-        if (mes) {
-            const anioActual = new Date().getFullYear();
-            const inicio = new Date(`${anioActual}-${mes}-01T00:00:00.000Z`);
-            const fin = new Date(`${anioActual}-${mes}-31T23:59:59.999Z`);
-            filtroMatch.fecha = { $gte: inicio, $lte: fin };
+        if (mes && mes !== "" && mes !== "undefined") {
+            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
+        }
+
+        if (anio && anio !== "" && anio !== "undefined") {
+            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+        }
+
+        if (condiciones.length > 0) {
+            filtroMatch = { $expr: { $and: condiciones } };
         }
 
         const stats = await Observacion.aggregate([
