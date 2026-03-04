@@ -31,7 +31,7 @@ function SectorComplianceChart({ mes }) {
   useEffect(() => {
     const fetchSectorData = async () => {
       try {
-        const response = await clienteAxios.get(`/observaciones/stats-sector${mes ? `?mes=${mes}` : ''}`);
+        const response = await clienteAxios.get(`/observaciones/stats-sector?anio=${anio}${mes ? `&mes=${mes}` : ''}`);
         const data = response.data;
 
         // Preparamos los datos para Chart.js
@@ -55,7 +55,7 @@ function SectorComplianceChart({ mes }) {
     };
 
     fetchSectorData();
-  }, [mes]); //array de dependencias, si su valor cambia ejecuta de nuevo ferchSectorData
+  }, [mes, anio]); //array de dependencias, si su valor cambia ejecuta de nuevo ferchSectorData
 
   const options = {
     responsive: true,

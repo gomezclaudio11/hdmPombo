@@ -19,7 +19,7 @@ function SectorDetailDashboard() {
       try {
         // 1. Usamos la URL dinámica que creamos en el Back-End
         // encodeURIComponent es vital porque nombres como "UTI POMBO" tienen espacios
-        const response = await clienteAxios.get(`/observaciones/stats-sector-detalle/${encodeURIComponent(sectorSeleccionado)}${mes ? `?mes=${mes}` : ''}`);
+        const response = await clienteAxios.get(`/observaciones/stats-sector-detalle/${encodeURIComponent(sectorSeleccionado)}?anio=${anio}${mes ? `&mes=${mes}` : ''}`);
         const data = response.data;
 
         setChartData({

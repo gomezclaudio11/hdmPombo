@@ -32,7 +32,7 @@ function ProfessionalRankingChart({ mes }) {
     useEffect(() => {
         const fetchProfessionalData = async () => {
             try {
-                const response = await clienteAxios.get(`/observaciones/stats-professional${mes ? `?mes=${mes}` : ''}`);
+                const response = await clienteAxios.get(`/observaciones/stats-professional?anio=${anio}${mes ? `&mes=${mes}` : ''}`);
                 const data = response.data;
 
                 setChartData({
@@ -54,7 +54,7 @@ function ProfessionalRankingChart({ mes }) {
             } 
             };
             fetchProfessionalData();
-        }, [mes]);
+        }, [mes, anio]);
 
 const options = {
     indexAxis: 'y', // <--- ESTO LO HACE HORIZONTAL

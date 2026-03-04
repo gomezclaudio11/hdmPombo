@@ -21,7 +21,7 @@ function GlobalComplianceCard({ mes, anio }) {
         const fetchData = async () => {
             try {
                 // Realizar la petición al endpoint de cumplimiento global
-                const response = await clienteAxios.get(`/observaciones/global-compliance${mes ? `?mes=${mes}` : ''}&anio=${anio}`); //ordenador ternario / query parameter
+                const response = await clienteAxios.get(`/observaciones/global-compliance?anio=${anio}${mes ? `&mes=${mes}` : ''}`); //ordenador ternario / query parameter
                 
                 // Guardar solo los datos relevantes (porcentaje, total, etc.)
                 setData(response.data);
