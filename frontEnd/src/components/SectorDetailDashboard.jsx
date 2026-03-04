@@ -8,7 +8,7 @@ import clienteAxios from '../api/axiosConfig';
 // Lista de sectores 
 const SECTORES = ["UTI ADULTO", "GUARDIA", "4to piso", "5to piso", "6to piso", "7mo piso"];
 
-function SectorDetailDashboard() {
+function SectorDetailDashboard({ mes, anio }) {
   const [sectorSeleccionado, setSectorSeleccionado] = useState(SECTORES[0]);
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ function SectorDetailDashboard() {
     };
 
     fetchDetalleData();
-  }, [sectorSeleccionado]); // <-- El efecto se dispara cada vez que cambias el sector
+  }, [sectorSeleccionado, mes, anio]); // <-- El efecto se dispara cada vez que cambias el sector
 
   const options = {
     indexAxis: 'y',

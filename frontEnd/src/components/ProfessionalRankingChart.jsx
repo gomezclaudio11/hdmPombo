@@ -25,7 +25,7 @@ import clienteAxios from '../api/axiosConfig';
 // La URL base de mi API de Express
 //const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function ProfessionalRankingChart({ mes }) {
+function ProfessionalRankingChart({ mes, anio }) {
     const [chartData, setChartData] = useState(null); 
     const [loading, setLoading] = useState(true);
 

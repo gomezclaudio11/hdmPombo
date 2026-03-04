@@ -23,7 +23,7 @@ import clienteAxios from '../api/axiosConfig';
 
 //const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function MomentComplianceChart({ mes }) {
+function MomentComplianceChart({ mes, anio }) {
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 
