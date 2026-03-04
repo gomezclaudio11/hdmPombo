@@ -64,10 +64,10 @@ function Header({ mes, setMes, anio, setAnio }) {
                         style={{ padding: '5px', borderRadius: '5px' }}
                     >
                         <option value="">Ver Todos</option>
-                        <option value="03">Marzo</option>
-                        <option value="04">Abril</option>
-                        <option value="07">Julio</option>
-                        <option value="08">Agosto</option>
+                        <option value="3">Marzo</option>
+                        <option value="4">Abril</option>
+                        <option value="7">Julio</option>
+                        <option value="8">Agosto</option>
                         <option value="11">Noviembre</option>
                         <option value="12">Diciembre</option>
                     </select>
