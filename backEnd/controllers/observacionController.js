@@ -42,7 +42,7 @@ exports.getGlobalCompliance = async (req, res) => {
 
         // Si hay alguna condición, usamos $expr para filtrar
         if (condiciones.length > 0) {
-            filtroMatch = { $expr: { $and: condiciones } };
+            filtroFecha = { $expr: { $and: condiciones } };
         }
 
       const stats = await Observacion.aggregate([ //pipeline de agregacion
@@ -136,7 +136,7 @@ exports.getComplianceBySector = async (req, res) => {
         }
 
         if (condiciones.length > 0) {
-            filtroMatch = { $expr: { $and: condiciones } };
+            filtroFecha = { $expr: { $and: condiciones } };
         }
 
         const statsBySector = await Observacion.aggregate([
@@ -212,7 +212,7 @@ exports.getComplianceByProfessional = async (req, res) => {
         }
 
         if (condiciones.length > 0) {
-            filtroMatch = { $expr: { $and: condiciones } };
+            filtroFecha = { $expr: { $and: condiciones } };
         }
 
         const statsByProfessional = await Observacion.aggregate([
@@ -284,7 +284,7 @@ exports.getComplianceByMoment = async (req, res) => {
         }
 
         if (condiciones.length > 0) {
-            filtroMatch = { $expr: { $and: condiciones } };
+            filtroFecha = { $expr: { $and: condiciones } };
         }
 
         const statsByMoment = await Observacion.aggregate([
@@ -357,14 +357,16 @@ exports.getTechniqueUsage = async (req, res) => {
         }
 
         if (condiciones.length > 0) {
-            filtroMatch = { $expr: { $and: condiciones } };
+            filtroFecha = { $expr: { $and: condiciones } };
         }
 
         const statsByTechnique = await Observacion.aggregate([
             {
               $match: { 
-                    ...filtroFecha,
-                    accion: { $nin: [null, "Ninguna", ""] } 
+                    $and: [
+            filtroFecha, // Aquí entra el $expr del mes/año
+            { accion: { $nin: [null, "Ninguna", ""] } }
+        ]
                 } 
             },
 
@@ -412,7 +414,7 @@ exports.getComplianceByShift = async (req, res) => {
         }
 
         if (condiciones.length > 0) {
-            filtroMatch = { $expr: { $and: condiciones } };
+            filtroFecha = { $expr: { $and: condiciones } };
         }
 
         const statsByShift = await Observacion.aggregate([
@@ -481,25 +483,31 @@ exports.getStaffComplianceBySector = async (req, res) => {
     try {
         // Capturamos el nombre desde la URL
         const { nombreSector } = req.params; 
-           const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
-        let filtroFecha = {};
-        let condiciones = [];
+        const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
+        
+        let filtroFinal = { sector: nombreSector };
+        let condicionesFecha = [];
 
         if (mes && mes !== "" && mes !== "undefined") {
-            condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
+            condicionesFecha.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
         }
 
         if (anio && anio !== "" && anio !== "undefined") {
-            condiciones.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
+            condicionesFecha.push({ $eq: [{ $year: "$fecha" }, parseInt(anio)] });
         }
-
-        if (condiciones.length > 0) {
-            filtroMatch = { $expr: { $and: condiciones } };
+        
+        if (condicionesFecha.length > 0) {
+            filtroFecha = { 
+                $and: [
+                    { sector: nombreSector },
+                    { $expr: { $and: condicionesFecha } }
+                ]    
+                } ;
         }
 
         const stats = await Observacion.aggregate([
             // 2. Filtramos por el sector y la fecha (muy eficiente)
-            { $match: filtroMatch },
+            { $match: filtroFinal },
             // 3. Agrupamos por personal (usando el campo unificado)
             {
                 $group: {
