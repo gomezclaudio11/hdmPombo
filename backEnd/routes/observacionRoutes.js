@@ -12,6 +12,7 @@ router.get("/stats-moment", auth, observacionController.getComplianceByMoment)
 router.get('/stats-techniques', auth, observacionController.getTechniqueUsage);
 router.get('/stats-shift', auth, observacionController.getComplianceByShift);
 router.get('/stats-sector-detalle/:nombreSector', auth, observacionController.getStaffComplianceBySector);
+router.get('/admin/unificar-todo', observacionController.unificarDatosHistoricos);
 
 //Ruta para formulario de carga POST 
 router.post("/", auth, observacionController.crearObservacion);

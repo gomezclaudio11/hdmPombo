@@ -2,19 +2,43 @@ const Observacion = require("../models/Observacion")
 
 // Función para unificar datos LLAMARLA UNA VEZ
 exports.unificarDatosHistoricos = async () => {
-    const datosViejos = await Observacion.find({ sector: { $exists: false } });
+    try {
+        // Buscamos documentos que NO tengan el campo 'profesional' 
+        // o donde 'profesional' sea null/indefinido
+        const datosViejos = await Observacion.find({
+            $or: [
+                { profesional: { $exists: false } },
+                { profesional: null },
+                { profesional: "" }
+            ]
+        });
 
-    for (let doc of datosViejos) {
-        doc.fecha = doc['Marca temporal'] || doc.createdAt;
-        doc.observador = doc['Nombre del observador'];
-        doc.sector = doc['Sector en el que realizo la observación'];
-        doc.profesional = doc['Personal al que observo'];
-        doc.momento = doc['Momento que observa'];
-        doc.accion = doc['Accion que realizo'];
+        console.log(`Iniciando unificación de ${datosViejos.length} registros...`);
+
+        let actualizados = 0;
+
+        for (let doc of datosViejos) {
+            // Mapeo seguro: Si el campo viejo existe, lo usamos. Si no, mantenemos lo que hay.
+            doc.fecha = doc['Marca temporal'] || doc.fecha || doc.createdAt;
+            doc.observador = doc['Nombre del observador'] || doc.observador;
+            doc.sector = doc['Sector en el que realizo la observación'] || doc.sector;
+            doc.profesional = doc['Personal al que observo'] || doc.profesional;
+            doc.momento = doc['Momento que observa'] || doc.momento;
+            doc.accion = doc['Accion que realizo'] || doc.accion;
+            doc.turno = doc['Turno'] || doc.turno;
+
+            // Guardamos el documento con los campos nuevos
+            await doc.save();
+            actualizados++;
+        }
+
+        console.log(`Unificación completada: ${actualizados} registros procesados.`);
         
-        await doc.save();
+        if (res) res.json({ message: "Unificación completada", total: actualizados });
+    } catch (error) {
+        console.error("Error en unificación:", error);
+        if (res) res.status(500).json({ error: error.message });
     }
-    console.log(`${datosViejos.length} registros actualizados`);
 };
 
 
