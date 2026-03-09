@@ -192,7 +192,6 @@ exports.getComplianceBySector = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion", true] },
                                     { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] },
@@ -268,7 +267,6 @@ exports.getComplianceByProfessional = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion", true] },
                                     { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] }, 
@@ -342,7 +340,6 @@ exports.getComplianceByMoment = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion", true] },
                                     { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] },
@@ -483,7 +480,6 @@ exports.getComplianceByShift = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion", true] },
                                     { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] },
@@ -568,7 +564,6 @@ exports.getStaffComplianceBySector = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $exists: ["$accion", true] },
                                     { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
                                     { $ne: ["$accion", null] },
