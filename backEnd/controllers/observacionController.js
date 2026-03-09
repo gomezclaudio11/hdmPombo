@@ -536,7 +536,7 @@ exports.getStaffComplianceBySector = async (req, res) => {
         const { nombreSector } = req.params; 
         const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
         
-        let filtroFinal = { sector: nombreSector };
+        let filtroFecha = { sector: nombreSector };
         let condicionesFecha = [];
 
         if (mes && mes !== "" && mes !== "undefined") {
