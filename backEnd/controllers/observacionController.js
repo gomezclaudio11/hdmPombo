@@ -98,7 +98,7 @@ exports.getGlobalCompliance = async (req, res) => {
                         {
                             $match: {
                                 // Filtramos los que NO son 'Ninguna' y que tengan una acción
-                                accion: { $exists: true, $ne: "Ninguna", $nin: [null, ""] }
+                                accion: { $exists: true, $nin: [null, "", "Ninguna"] }
                             }
                         },
                         { $count: "total" }
@@ -192,9 +192,11 @@ exports.getComplianceBySector = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $ne: ["$accion", undefined] },
+                                    { $exists: ["$accion", true] },
+                                    { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
-                                    { $ne: ["$accion", null] }
+                                    { $ne: ["$accion", null] },
+                                    { $ne: ["$accion", "null"] },
                                 ]},
                                 1, 0
                             ]
@@ -266,9 +268,11 @@ exports.getComplianceByProfessional = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $ne: ["$accion", undefined] },
+                                    { $exists: ["$accion", true] },
+                                    { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
-                                    { $ne: ["$accion", null] }
+                                    { $ne: ["$accion", null] }, 
+                                    { $ne: ["$accion", "null"] } 
                                 ]},
                                 1, 0
                             ]
@@ -338,9 +342,11 @@ exports.getComplianceByMoment = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $ne: ["$accion", undefined] },
+                                    { $exists: ["$accion", true] },
+                                    { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
-                                    { $ne: ["$accion", null] }
+                                    { $ne: ["$accion", null] },
+                                    { $ne: ["$accion", "null"] },
                                 ]},
                                 1, 0
                             ]
@@ -386,9 +392,13 @@ exports.getComplianceByMoment = async (req, res) => {
 exports.getTechniqueUsage = async (req, res) => {
     try {
            const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
-        let filtroFecha = {};
         let condiciones = [];
 
+        // 1. Siempre filtramos para que la acción SEA una técnica válida
+        // Excluimos null, "null" (texto), "Ninguna" y vacíos
+        let matchStage = { 
+            accion: { $exists: true, $nin: [null, "null", "Ninguna", ""] } 
+        };
         if (mes && mes !== "" && mes !== "undefined") {
             condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
         }
@@ -398,18 +408,16 @@ exports.getTechniqueUsage = async (req, res) => {
         }
 
         if (condiciones.length > 0) {
-            filtroFecha = { $expr: { $and: condiciones } };
+           matchStage = {
+                $and: [
+                    matchStage,
+                    { $expr: { $and: condiciones } }
+                ]
+            }; 
         }
 
         const statsByTechnique = await Observacion.aggregate([
-            {
-              $match: { 
-                    $and: [
-            filtroFecha, // Aquí entra el $expr del mes/año
-            { accion: { $nin: [null, "Ninguna", ""] } }
-        ]
-                } 
-            },
+            { $match: matchStage },
 
             // 2. Agrupamos por el nombre de la técnica
             {
@@ -443,8 +451,8 @@ exports.getTechniqueUsage = async (req, res) => {
 exports.getComplianceByShift = async (req, res) => {
     try {
            const { mes, anio } = req.query; // Capturamos el mes (ej: "03", "07", "11")
-        let filtroFecha = {};
-        let condiciones = [];
+            let filtroFinal = { turno: { $ne: null, $ne: "" } }; // Filtro base: que el turno exista
+           let condiciones = [];
 
         if (mes && mes !== "" && mes !== "undefined") {
             condiciones.push({ $eq: [{ $month: "$fecha" }, parseInt(mes)] });
@@ -455,16 +463,16 @@ exports.getComplianceByShift = async (req, res) => {
         }
 
         if (condiciones.length > 0) {
-            filtroFecha = { $expr: { $and: condiciones } };
+            filtroFinal = {
+                $and: [
+                    { turno: { $ne: null, $ne: "" } },
+                    { $expr: { $and: condiciones } }
+                ]
+            };
         }
 
         const statsByShift = await Observacion.aggregate([
-            {
-              $match: { 
-                    ...filtroFecha,
-                    turno: { $ne: null, $ne: "" } 
-                } 
-            },
+            { match: filtroFinal },
 
             // 3. Agrupamos directamente por el campo 'turno'
             {
@@ -475,9 +483,11 @@ exports.getComplianceByShift = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $ne: ["$accion", undefined] },
+                                    { $exists: ["$accion", true] },
+                                    { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
-                                    { $ne: ["$accion", null] }
+                                    { $ne: ["$accion", null] },
+                                    { $ne: ["$accion", "null"] }
                                 ]},
                                 1, 0
                             ]
@@ -548,7 +558,7 @@ exports.getStaffComplianceBySector = async (req, res) => {
 
         const stats = await Observacion.aggregate([
             // 2. Filtramos por el sector y la fecha (muy eficiente)
-            { $match: filtroFinal },
+            { $match: filtroFecha },
             // 3. Agrupamos por personal (usando el campo unificado)
             {
                 $group: {
@@ -558,9 +568,11 @@ exports.getStaffComplianceBySector = async (req, res) => {
                         $sum: {
                             $cond: [
                                 { $and: [
-                                    { $ne: ["$accion", undefined] },
+                                    { $exists: ["$accion", true] },
+                                    { $ne: ["$accion", ""] },
                                     { $ne: ["$accion", "Ninguna"] },
-                                    { $ne: ["$accion", null] }
+                                    { $ne: ["$accion", null] },
+                                    { $ne: ["$accion", "null"] }
                                 ]},
                                 1, 0
                             ]

@@ -22,9 +22,9 @@ mongoose.connect(mongoURI)
         console.log(' Conectado correctamente a MongoDB.');
 
         // LA LLAMADA MÁGICA:
-      console.log("Iniciando unificación de datos...");
-      await unificarDatosHistoricos(); //LINEA COMENTADA XQ SOLO SE USA UNA VEZ  
-      console.log("Proceso terminado.");
+      //console.log("Iniciando unificación de datos...");
+      //await unificarDatosHistoricos(); //LINEA COMENTADA XQ SOLO SE USA UNA VEZ  
+      //console.log("Proceso terminado.");
     })
     .catch((err) => {
         console.error('Error de conexión a MongoDB:', err);
