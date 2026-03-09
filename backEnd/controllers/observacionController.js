@@ -8,8 +8,9 @@ exports.unificarDatosHistoricos = async () => {
         const datosViejos = await Observacion.find({
             $or: [
                 { profesional: { $exists: false } },
-                { profesional: null },
-                { profesional: "" }
+                { accion: null },
+                { accion: "" },
+                { sector: { $exists: false } }
             ]
         });
 
@@ -24,17 +25,33 @@ exports.unificarDatosHistoricos = async () => {
             doc.sector = doc['Sector en el que realizo la observación'] || doc.sector;
             doc.profesional = doc['Personal al que observo'] || doc.profesional;
             doc.momento = doc['Momento que observa'] || doc.momento;
-            doc.accion = doc['Accion que realizo'] || doc.accion;
             doc.turno = doc['Turno'] || doc.turno;
 
-            // Guardamos el documento con los campos nuevos
+            // 2. Lógica Especial para la ACCIÓN (Limpieza de NULLs)
+            // Priorizamos el campo viejo, luego el nuevo, y si ambos fallan -> "Ninguna"
+            let accionOriginal = doc['Accion que realizo'] || doc.accion;
+
+            if (!accionOriginal || accionOriginal === null || accionOriginal === "" || accionOriginal === "null") {
+                doc.accion = "Ninguna";
+            } else {
+                doc.accion = accionOriginal;
+            }
+
+            // 3. Guardar cambios
             await doc.save();
             actualizados++;
-        }
+
+           }
 
         console.log(`Unificación completada: ${actualizados} registros procesados.`);
         
-        if (res) res.json({ message: "Unificación completada", total: actualizados });
+       if (res) {
+            res.json({
+                status: "success",
+                message: "Limpieza y unificación completada",
+                totalProcesados: actualizados
+            });
+        }
     } catch (error) {
         console.error("Error en unificación:", error);
         if (res) res.status(500).json({ error: error.message });
