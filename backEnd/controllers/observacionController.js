@@ -98,7 +98,7 @@ exports.getGlobalCompliance = async (req, res) => {
                         {
                             $match: {
                                 // Filtramos los que NO son 'Ninguna' y que tengan una acción
-                                accion: { $exists: true, $nin: [null, "", "Ninguna"] }
+                                accion: { $exists: true, $nin: [null, "null", "", "Ninguna"] }
                             }
                         },
                         { $count: "total" }
