@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -61,6 +62,13 @@ const Login = () => {
                 </div>
 
                 <button type="submit" style={styles.button}>Entrar</button>
+                <button type="submit" style={styles.button}>Entrar</button>
+
+                {/* Agregamos el link de registro */}
+                <div style={styles.registerLink}>
+                    <p>¿No tienes cuenta?</p>
+                    <Link to="/register" style={styles.link}>Crear cuenta aquí</Link>
+                </div>
             </form>
         </div>
     );
@@ -72,7 +80,20 @@ const styles = {
     form: { padding: '2rem', background: 'white', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)', width: '300px' },
     inputGroup: { marginBottom: '1rem', display: 'flex', flexDirection: 'column' },
     button: { width: '100%', padding: '0.7rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' },
-    error: { color: 'red', fontSize: '0.9rem', marginBottom: '1rem' }
+    error: { color: 'red', fontSize: '0.9rem', marginBottom: '1rem' },
+    registerLink: {
+        marginTop: '1.5rem',
+        textAlign: 'center',
+        fontSize: '0.9rem',
+        color: '#666'
+    },
+    link: {
+        color: '#007bff',
+        textDecoration: 'none',
+        fontWeight: 'bold',
+        display: 'block',
+        marginTop: '0.3rem'
+    }
 };
 
 export default Login;

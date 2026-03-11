@@ -9,6 +9,7 @@ import MomentComplianceChart from './components/MomentComplianceChart';
 import SectorDetailDashboard from './components/SectorDetailDashboard';
 import Login from './components/Login';
 import FormularioObservacion from './components/FormularioObservacion';
+import FormResgister from "./components/FormResgister"
 import { jwtDecode } from 'jwt-decode';
 
 //1. componente interno Dashboard
@@ -56,7 +57,7 @@ const RutaProtegida = ({ children }) => {
 };
 
 // Componente para proteger rutas (Evita que entren sin Login)
-const RutaPorRol = ({ children, rolPermitiido }) => {
+const RutaPorRol = ({ children, rolPermitido }) => {
     const token = localStorage.getItem('token');
 
     if (!token) return <Navigate to="/login" />;
@@ -64,8 +65,8 @@ const RutaPorRol = ({ children, rolPermitiido }) => {
     try {
       const decoded = jwtDecode(token);
       //si el usuario no tiene el rol necesario, lo mandamos al dashboard solo lectura
-      if (rolPermitiido && decoded.rol !== rolPermitiido && decoded.rol !== "admin") {
-        return <Navigate to= "/ dashboard" />
+      if (rolPermitido && decoded.rol !== rolPermitido && decoded.rol !== "admin") {
+        return <Navigate to= "/dashboard" />
       }
       return children
     } catch (error) {
@@ -80,8 +81,9 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Rutas del login*/}
+        {/* Rutas del Publicas sin token*/}
         <Route path='/login' element={<Login />} />
+        <Route path='/register' element={<FormResgister />} />
 
         {/** Ruta del Dashboard protegidas */}
         <Route
