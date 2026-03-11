@@ -3,8 +3,10 @@ import clienteAxios from '../api/axiosConfig';
 import { jwtDecode } from "jwt-decode"
 import { Form } from 'react-router-dom';
 import "./Formulario.css"
+import { useNavigate } from 'react-router-dom';
 
 const FormularioObservacion = () => {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         observador: "",
         sector: '',
@@ -38,16 +40,20 @@ const FormularioObservacion = () => {
         try {
             // Gracias al interceptor, NO necesitamos pasar el token aquí
             await clienteAxios.post('/observaciones', formData);
-            setMensaje({ texto: "Registro existoso", tipo: "success" })
-
-            setFormData( prev => ({ 
-                ...prev,
-                profesional: '', 
-                momento: '', 
+            setMensaje({ texto: "✅ Registro guardado con éxito", tipo: "success" })
+            //LIMPIAMOS EL FORMULARIO
+            setFormData({ 
+                observador: formData.observador, // Mantenemos el nombre del observador
+                sector: '',
+                turno: '',
+                profesional: '',
+                momento: '',
                 accion: ""
-            })); 
-            setTimeout(() => setMensaje({ texto: "", tipo: "" }), 3000)
-        } catch (error) {
+            }); 
+            setTimeout(() => {
+                navigate("/dashboard")
+            }, 1500);
+            } catch (error) {
             setMensaje({ texto: "Error al guardar", tipo: "error" })
         }
     };
