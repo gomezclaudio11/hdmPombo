@@ -62,7 +62,6 @@ const Login = () => {
                 </div>
 
                 <button type="submit" style={styles.button}>Entrar</button>
-                <button type="submit" style={styles.button}>Entrar</button>
 
                 {/* Agregamos el link de registro */}
                 <div style={styles.registerLink}>
