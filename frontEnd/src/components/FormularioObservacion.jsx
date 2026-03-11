@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import clienteAxios from '../api/axiosConfig';
 import { jwtDecode } from "jwt-decode"
 import { Form } from 'react-router-dom';
+import "./Formulario.css"
 
 const FormularioObservacion = () => {
     const [formData, setFormData] = useState({
@@ -55,14 +56,18 @@ const FormularioObservacion = () => {
        <div className="form-container">
             <form onSubmit={handleSubmit} className="hdm-form">
                 <header className="form-header">
-                    <h2>HDM POMBO - REGISTRO SEGURO</h2>
-                    <p>Carga de Oportunidades - Marzo 2026</p>
+                    <h2>Higuiene de Manos POMBO</h2>
+                    <p>Carga de Oportunidades</p>
                 </header>
 
-                {mensaje.texto && <div className={`alert ${mensaje.tipo}`}>{mensaje.texto}</div>}
+                {mensaje.texto && (
+                    <div className={`alert ${mensaje.tipo}`}>{mensaje.texto}
+                       {mensaje.tipo === 'success' ? '✅ ' : '❌ '}
+                        {mensaje.texto} 
+                    </div>)}
 
                 <div className="form-section">
-                    <label>Observador Logueado:</label>
+                    <label><i className="fas fa-user-check"></i>Observador Logueado:</label>
                     <input 
                         type="text" 
                         name="observador" 
@@ -70,8 +75,8 @@ const FormularioObservacion = () => {
                         readOnly 
                         className="input-readonly"
                     />
-                    <small>El nombre se asigna automáticamente por seguridad.</small>
-
+                <div className="row">
+                    <div className="col">
                     <label>Sector *</label>
                     <select name="sector" value={formData.sector} onChange={handleChange} required>
                         <option value="">Seleccione Sector...</option>
@@ -82,7 +87,8 @@ const FormularioObservacion = () => {
                         <option value="UTI ADULTO">UTI ADULTO</option>
                         <option value="GUARDIA">GUARDIA</option>
                     </select>
-
+                </div>
+                    <div className="col"></div>
                     <label>Turno *</label>
                     <select name="turno" value={formData.turno} onChange={handleChange} required>
                         <option value="">Seleccione Turno...</option>
@@ -94,8 +100,8 @@ const FormularioObservacion = () => {
                         <option value="SADOFE NOCHE">SADOFE NOCHE</option>
                     </select>
                 </div>
-
-                {/* --- SECCIÓN OBSERVACIÓN --- */}
+                </div>
+            
                 <div className="form-section highlight">
                     <label>Personal al que observó *</label>
                     <select name="profesional" value={formData.profesional} onChange={handleChange} required>
@@ -137,20 +143,23 @@ const FormularioObservacion = () => {
                         ))}
                     </div>
 
-                    <label>Acción que realizó *</label>
+                    <label style={{marginTop: '20px'}}>Acción que realizó *</label>
                     <div className="options-grid">
                         {[
                             'Higiene con solución alcoholica',
                             'Ninguna',
                             'Agua y Jabón (solo en Guardia)'
                         ].map(a => (
-                            <label key={a} className="radio-label">
+                            <label key={a} className={`radio-label ${a === 'Ninguna' ? 'danger-hover' : ''}`}>
                                 <input type="radio" name="accion" value={a} checked={formData.accion === a} onChange={handleChange} required /> {a}
+                                <span>{a}</span>
                             </label>
                         ))}
                     </div>
                 </div>
-                <button type="submit" className="btn-submit">Registrar Oportunidad</button>
+                <button type="submit" className="btn-submit">
+                    <i className="fas fa-save"></i>Registrar Oportunidad
+                </button>
             </form>
         </div>
     );

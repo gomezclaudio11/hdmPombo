@@ -71,7 +71,7 @@ function Header({ mes, setMes, anio, setAnio }) {
                         <option value="11">Noviembre</option>
                         <option value="12">Diciembre</option>
                     </select>
-
+                    <label >📅 Año: </label>
                     {/* Selector de Año */}
                     <select value={anio} onChange={(e) => setAnio(e.target.value)}>
                     <option value="2025">2025</option>
