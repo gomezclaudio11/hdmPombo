@@ -21,10 +21,7 @@ function Header({ mes, setMes, anio, setAnio }) {
             console.error("Token inválido");
         }
     }
-console.log("--- DEBUG USUARIO ---");
-console.log("Objeto user completo:", user);
-console.log("¿Qué hay en user.rol?:", user?.rol);
-console.log("¿Qué hay en user.role?:", user?.role);
+
   return (
     <header className="header" style={{ padding: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#f8f9fa', borderBottom: '1px solid #ddd' }}>
             
