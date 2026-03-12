@@ -65,7 +65,7 @@ const RutaPorRol = ({ children, rolPermitido }) => {
     try {
       const decoded = jwtDecode(token);
       //si el usuario no tiene el rol necesario, lo mandamos al dashboard solo lectura
-      if (rolPermitido && decoded.rol !== rolPermitido && decoded.rol !== "admin") {
+      if (rolPermitido && decoded.role !== rolPermitido && decoded.role !== "admin") {
         return <Navigate to= "/dashboard" />
       }
       return children
