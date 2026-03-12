@@ -97,7 +97,7 @@ function App() {
 
           {/* El Formulario SOLO lo ven Observadores (y el Admin por ser superior) */}
         <Route path='/cargar-datos' element={
-            <RutaPorRol rolPermitido="observador">
+            <RutaPorRol rolPermitido="observer">
                 <FormularioObservacion />
             </RutaPorRol>
         } />
