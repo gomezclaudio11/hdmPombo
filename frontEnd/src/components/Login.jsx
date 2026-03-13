@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
@@ -24,8 +25,7 @@ const Login = () => {
             //3. guardar en localStorage 
             localStorage.setItem("token", token);
 
-            // Opcional: Forzar un refresh si necesitas que el App.js detecte el cambio
-            window.location.href = "/dashboard"; 
+            navigate('/dashboard');
         } catch (error) {
             // Manejo de errores (Credenciales incorrectas, etc.)
             setError(error.response?.data?.message || 'Error al iniciar sesión');
