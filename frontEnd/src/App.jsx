@@ -13,34 +13,34 @@ import FormResgister from "./components/FormResgister"
 import { jwtDecode } from 'jwt-decode';
 
 //1. componente interno Dashboard
-const Dashboard = ({ mes, setMes, anio, setAnio }) => {
+const Dashboard = () => {
   return(
       <div className="dashboard-layout">
-      <Header mes={mes} setMes={setMes} anio={anio} setAnio={setAnio}/>      
+      <Header />      
     <main className="main-content">
        
      {/*Fila superior: Resumen Global*/} 
        
         <section className="kpi-section">
-           <GlobalComplianceCard mes={mes} anio={anio} />
+           <GlobalComplianceCard />
         </section>
      
      {/* Fila de Gráficos */}
         <section className="charts-grid">
           <div className="chart-container">
-            <SectorComplianceChart mes={mes} anio={anio}/>
+            <SectorComplianceChart />
           </div>
          <div className="chart-container">
-            <ProfessionalRankingChart mes={mes} anio={anio}/>
+            <ProfessionalRankingChart />
           </div>
         </section>
         <section className="full-width-chart">
           <div className="chart-container">
-            <MomentComplianceChart mes={mes} anio={anio}/>
+            <MomentComplianceChart />
           </div>
         </section>
         <section className="full-width-chart">
-          <SectorDetailDashboard mes={mes} anio={anio}/>
+          <SectorDetailDashboard />
         </section>
         </main>
         </div>
@@ -75,8 +75,6 @@ const RutaPorRol = ({ children, rolPermitido }) => {
 };
 
 function App() {
-  const [mes, setMes] = useState(""); // "" significa "Ver todos"
-  const [anio, setAnio] = useState("2025")
 
   return (
     <Router>
@@ -90,7 +88,7 @@ function App() {
           path='/dashboard'
           element={
             <RutaProtegida>
-              <Dashboard mes={mes} setMes={setMes} anio={anio} setAnio={setAnio} />
+              <Dashboard />
             </RutaProtegida>
           }
           />

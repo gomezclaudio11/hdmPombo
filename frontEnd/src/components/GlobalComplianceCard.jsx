@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 //es una librería de JavaScript que sirve para hacer peticiones 
 // HTTP desde la aplicación (el Frontend) hacia un servidor (el Backend).
 import clienteAxios from '../api/axiosConfig';
+import { useFilters } from '../context/FilterContext';
 
 // La URL base de tu API de Express
 //const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
@@ -10,7 +11,8 @@ import clienteAxios from '../api/axiosConfig';
  * Componente Tarjeta de Cumplimiento Global
  * Fetches data from /api/observaciones/global and displays the result.
  */
-function GlobalComplianceCard({ mes, anio }) {
+function GlobalComplianceCard() {
+    const {mes, anio} = useFilters();
     const [data, setData] = useState(null);// cuando la aplicacion arranca no hay datos
     //xq la peticion todavia no se hizo al poner null decimos todavia no tengo info
     const [loading, setLoading] = useState(true);

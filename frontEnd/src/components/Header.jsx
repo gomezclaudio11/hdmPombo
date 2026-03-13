@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
+import { useFilters } from '../context/FilterContext';
 
 const handleLogout = () => {
   //1. se borra el token
@@ -9,7 +10,8 @@ const handleLogout = () => {
   window.location.href = "/login"
 }
 
-function Header({ mes, setMes, anio, setAnio }) {
+function Header() {
+    const { mes, setMes, anio, setAnio } = useFilters();
   // 1. Extraemos el usuario del token para saber su rol
     const token = localStorage.getItem('token');
     let user = null;

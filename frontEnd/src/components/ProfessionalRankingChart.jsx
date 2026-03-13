@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 import {
   Chart as ChartJS,
@@ -11,6 +10,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useFilters } from "../context/FilterContext";
 
 ChartJS.register(
   CategoryScale,
@@ -25,7 +25,8 @@ import clienteAxios from '../api/axiosConfig';
 // La URL base de mi API de Express
 //const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function ProfessionalRankingChart({ mes, anio }) {
+function ProfessionalRankingChart() {
+    const {mes, anio} = useFilters();
     const [chartData, setChartData] = useState(null); 
     const [loading, setLoading] = useState(true);
 

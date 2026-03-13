@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +9,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useFilters } from "../context/FilterContext";
 
 ChartJS.register(
   CategoryScale,
@@ -23,7 +23,8 @@ import clienteAxios from '../api/axiosConfig';
 
 //const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function MomentComplianceChart({ mes, anio }) {
+function MomentComplianceChart() {
+    const { mes, anio } = useFilters();
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 

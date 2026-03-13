@@ -2,13 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import clienteAxios from '../api/axiosConfig';
-
+import { useFilters } from '../context/FilterContext';
 //const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 // Lista de sectores 
 const SECTORES = ["UTI ADULTO", "GUARDIA", "4to piso", "5to piso", "6to piso", "7mo piso"];
 
-function SectorDetailDashboard({ mes, anio }) {
+function SectorDetailDashboard() {
+  const {mes, anio} = useFilters();
   const [sectorSeleccionado, setSectorSeleccionado] = useState(SECTORES[0]);
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +9,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
+import { useFilters } from '../context/FilterContext';
 
 // Registrar los componentes de Chart.js
 ChartJS.register(
@@ -24,7 +24,8 @@ import clienteAxios from '../api/axiosConfig';
 
 //const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-function SectorComplianceChart({ mes, anio }) {
+function SectorComplianceChart() {
+  const { mes, anio } = useFilters()
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(true);
 
