@@ -69,7 +69,7 @@ exports.login = async (req, res) => {
         const token = jwt.sign(
             {id: user._id, nombre: user.nombre, role: user.role }, //lo que queremos que el token sepa
             process.env.JWT_SECRET,           //clave secreta definida en .env
-            { expiresIn: "8h" }               //tiempo de validez
+            { expiresIn: "2h" }               //tiempo de validez
         );
 
         res.json({
