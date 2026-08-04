@@ -12,8 +12,14 @@ const userValidationSchemas = {
     password: Joi.string()
       .min(8)
       .max(128)
-      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)
-      .required(),
+      .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/)
+      .required()
+      .messages({
+        'string.min': 'La contraseña debe tener al menos 8 caracteres.',
+        'string.max': 'La contraseña no puede superar los 128 caracteres.',
+        'string.pattern.base': 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula y un número.',
+        'any.required': 'La contraseña es obligatoria.'
+      }),
     codigoInvitacion: Joi.string().valid('agenteObservador').optional()
   }),
   
