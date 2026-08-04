@@ -1,44 +1,123 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
+const jwtService = require('./jwt.service');
+const validationService = require('./validation');
 
-const auth = (req, res, next) => {
-    // 1. LEE EL TOKEN QUE VIENE EN EL HEADER DE LA PETICION
-    const token = req.header("x-auth-token");
-
-    //2.revisar si no hay token
-    if(!token) {
-        return res.status(401).json({ message: "No hay token, permiso no valido" });
+// Original auth middleware (for backwards compatibility)
+const auth = async (req, res, next) => {
+  try {
+    const token = req.header('x-auth-token');
+    
+    if (!token) {
+      return res.status(401).json({
+        message: "No hay token, permiso no valido"
+      });
     }
-
-    //3. validar el token
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-        //4 añadir el usuario (id y rol) a la peticion para el controlar lo use
-        req.user = decoded;
-        next(); //contuar al siguiente paso (el controlador)
-    } catch (error) {
-        res.status(401).json({ message: "Token no es valido" })
-    }
+    
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(401).json({ message: "Token no es valido" });
+  }
 };
 
-//Middleware para verificar Roles especificos
-const checkRole = (rolesPermitidos) => {
-    return (req, res, next) => {
-        //verificamos si el rol del usuario esta en la lista de permitidos
-        if(!rolesPermitidos.includes(req.user.role)) {
-            return res.status(403).json({
-                message: `Acceso denegado: tu rol de ${req.user.role} no tiene permiso para esta accion`
-            });
-        }
-        next();
+// Role checking middleware
+const checkRole = (allowedRoles) => {
+  return (req, res, next) => {
+    if (!req.user) {
+      return res.status(401).json({ message: "Authentication required" });
     }
-}
 
-module.exports = { auth, checkRole };
+    if (!allowedRoles.includes(req.user.role)) {
+      return res.status(403).json({
+        message: `Acceso denegado: tu rol de ${req.user.role} no tiene permiso para esta accion`
+      });
+    }
+    next();
+  };
+};
 
-/**
- Diferencia entre Error 401 y 403 
-   401 Unauthorized: "No sé quién eres" (No hay token o es falso).
-   403 Forbidden: "Sé quién eres, pero no tienes permiso para entrar aquí" 
-  (Eres un Lector intentando borrar algo de un Admin).
- */
+// New enhanced auth middleware
+const enhancedMiddleware = {
+  authenticate: async (req, res, next) => {
+    try {
+      const token = req.header('x-auth-token');
+      
+      if (!token) {
+        return res.status(401).json({
+          message: 'No authentication token provided',
+          error: 'AUTH_001'
+        });
+      }
+      
+      const decoded = jwtService.verifyToken(token);
+      
+      req.user = decoded;
+      req.token = token;
+      
+      next();
+    } catch (error) {
+      if (error.message === 'Token expired') {
+        return res.status(401).json({
+          message: 'Authentication token expired',
+          error: 'AUTH_002'
+        });
+      }
+      
+      console.error('Authentication error:', error.message);
+      return res.status(401).json({
+        message: 'Invalid authentication token',
+        error: 'AUTH_003'
+      });
+    }
+  },
+
+  authorize: (allowedRoles) => {
+    return (req, res, next) => {
+      if (!req.user) {
+        return res.status(401).json({
+          message: 'Authentication required',
+          error: 'AUTH_004'
+        });
+      }
+      
+      if (!allowedRoles.includes(req.user.role)) {
+        return res.status(403).json({
+          message: `Access denied. Required roles: ${allowedRoles.join(', ')}`,
+          error: 'AUTH_005',
+          userRole: req.user.role,
+          requiredRoles: allowedRoles
+        });
+      }
+      
+      next();
+    };
+  },
+
+  validateInput: (schemaName) => {
+    return (req, res, next) => {
+      try {
+        const validatedData = validationService.validate(schemaName, {
+          ...req.body,
+          ...req.query,
+          ...req.params
+        });
+        
+        req.body = validatedData;
+        next();
+      } catch (error) {
+        return res.status(400).json({
+          message: 'Input validation failed',
+          error: 'VAL_001',
+          details: error.message
+        });
+      }
+    };
+  }
+};
+
+module.exports = {
+  auth,
+  checkRole,
+  ...enhancedMiddleware
+};

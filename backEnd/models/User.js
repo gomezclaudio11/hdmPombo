@@ -1,8 +1,8 @@
-const mongoose = require ("mongoose");
-const bcrypt = require ("bcryptjs")
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
 
 const UserSchema = new mongoose.Schema({
-    nombre:{
+    nombre: {
         type: String,
         required: [true, "El nombre es obligatorio"],
         trim: true
@@ -10,14 +10,26 @@ const UserSchema = new mongoose.Schema({
     email: {
         type: String,
         required: [true, "El correo es obligatorio"],
-        unique: true, // no permite dos usuarios con el mismo mail
+        unique: true,
         lowercase: true,
-        trim: true
+        trim: true,
+        validate: {
+            validator: function(email) {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+            },
+            message: "Invalid email format"
+        }
     },
     password: {
         type: String,
         required: [true, "La contraseña es obligatoria"],
-        minlength: 5
+        minlength: [8, "Password must be at least 8 characters"],
+        validate: {
+            validator: function(password) {
+                return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+            },
+            message: "Password must contain uppercase, lowercase, number, and special character"
+        }
     },
     role: {
         type: String,
@@ -28,27 +40,31 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     }
-}, { timestamps: true }); //crea automaticamente campos "createAt" y "updateAt"
+}, { timestamps: true });
 
-// --- CONFIGURACIÓN DEL PRE-SAVE HOOK ---
+// Enhanced pre-save hook with better error handling
 UserSchema.pre('save', async function(next) {
-    // Solo encriptamos si la contraseña ha sido modificada (o es nueva)
     if (!this.isModified('password')) return next();
 
     try {
-        // Generamos un "salt" (una semilla de aleatoriedad)
-        const salt = await bcrypt.genSalt(10);
-        // Hasheamos la contraseña
+        const salt = await bcrypt.genSalt(12);
         this.password = await bcrypt.hash(this.password, salt);
-        
     } catch (error) {
         throw error;
     }
 });
 
-// Método para comparar contraseñas después (para usar en el Login)
+// Method to compare passwords after (for use in Login)
 UserSchema.methods.comparePassword = async function(candidatePassword) {
     return await bcrypt.compare(candidatePassword, this.password);
 };
 
-module.exports = mongoose.model("User", UserSchema)
+// Method to strip sensitive data from user object
+UserSchema.methods.toSafeObject = function() {
+    const obj = this.toObject();
+    delete obj.password;
+    delete obj.__v;
+    return obj;
+};
+
+module.exports = mongoose.model("User", UserSchema);
