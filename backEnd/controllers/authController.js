@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
-const { User } = require('./models/User');
-const jwtService = require('./jwt.service');
-const validationService = require('./validation');
+const User = require('../models/User');
+const jwtService = require('../jwt.service');
+const validationService = require('../validation');
 
 const authController = {
   async register(req, res) {

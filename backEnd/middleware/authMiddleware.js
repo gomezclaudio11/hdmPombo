@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const jwtService = require('./jwt.service');
-const validationService = require('./validation');
+const jwtService = require('../jwt.service');
+const validationService = require('../validation');
 
 // Original auth middleware (for backwards compatibility)
 const auth = async (req, res, next) => {
