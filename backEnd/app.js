@@ -47,12 +47,10 @@ app.get('/', (req, res) => {
 // 6. Use API Routes
 app.use('/api/observaciones', 
     authMiddleware.authenticate,
-    authMiddleware.validateInput('observation'),
     observacionRoutes
 );
 
 app.use('/api/auth',
-    authMiddleware.validateInput('register'),
     authRoutes
 );
 
