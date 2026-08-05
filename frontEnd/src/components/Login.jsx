@@ -81,6 +81,10 @@ const Login = () => {
                     </div>
                 </div>
 
+                <div style={{ textAlign: 'right', marginBottom: '1rem' }}>
+                    <Link to="/forgot-password" style={{ fontSize: '0.85rem', color: '#007bff', textDecoration: 'none' }}>¿Olvidaste tu contraseña?</Link>
+                </div>
+
                 <button type="submit" style={styles.button}>Entrar</button>
 
                 {/* Agregamos el link de registro */}
