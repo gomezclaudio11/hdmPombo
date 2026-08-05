@@ -12,6 +12,8 @@ const RegistroUsuario = () => {
     });
 
     const [mensaje, setMensaje] = useState({ texto: '', tipo: '' });
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -79,22 +81,42 @@ const RegistroUsuario = () => {
                     />
 
                     <label>Contraseña *</label>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        value={userData.password} 
-                        onChange={handleChange} 
-                        required 
-                    />
+                    <div className="password-wrapper">
+                        <input 
+                            type={showPassword ? "text" : "password"} 
+                            name="password" 
+                            value={userData.password} 
+                            onChange={handleChange} 
+                            required 
+                        />
+                        <button 
+                            type="button" 
+                            className="password-toggle-btn"
+                            onClick={() => setShowPassword(!showPassword)}
+                            title={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
+                        >
+                            {showPassword ? "👁️‍🗨️" : "👁️"}
+                        </button>
+                    </div>
 
                     <label>Confirmar Contraseña *</label>
-                    <input 
-                        type="password" 
-                        name="confirmPassword" 
-                        value={userData.confirmPassword} 
-                        onChange={handleChange} 
-                        required 
-                    />
+                    <div className="password-wrapper">
+                        <input 
+                            type={showConfirmPassword ? "text" : "password"} 
+                            name="confirmPassword" 
+                            value={userData.confirmPassword} 
+                            onChange={handleChange} 
+                            required 
+                        />
+                        <button 
+                            type="button" 
+                            className="password-toggle-btn"
+                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            title={showConfirmPassword ? "Ocultar contraseña" : "Ver contraseña"}
+                        >
+                            {showConfirmPassword ? "👁️‍🗨️" : "👁️"}
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" className="btn-submit">Registrar Usuario</button>

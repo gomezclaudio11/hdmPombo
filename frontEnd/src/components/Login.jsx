@@ -6,6 +6,7 @@ const Login = () => {
     const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState(null);
 
     const handleSubmit = async (e) => {
@@ -52,13 +53,32 @@ const Login = () => {
 
                 <div style={styles.inputGroup}>
                     <label>Contraseña:</label>
-                    <input 
-                        type="password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
-                        placeholder="********"
-                    />
+                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                        <input 
+                            type={showPassword ? "text" : "password"} 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            required 
+                            placeholder="********"
+                            style={{ width: '100%', padding: '0.7rem', paddingRight: '40px', boxSizing: 'border-box' }}
+                        />
+                        <button 
+                            type="button" 
+                            onClick={() => setShowPassword(!showPassword)}
+                            style={{ 
+                                position: 'absolute', 
+                                right: '10px', 
+                                background: 'transparent', 
+                                border: 'none', 
+                                cursor: 'pointer', 
+                                fontSize: '1.2rem',
+                                padding: '0'
+                            }}
+                            title={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
+                        >
+                            {showPassword ? "👁️‍🗨️" : "👁️"}
+                        </button>
+                    </div>
                 </div>
 
                 <button type="submit" style={styles.button}>Entrar</button>
