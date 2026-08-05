@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const clienteAxios = axios.create({
-    baseURL: "https://hdmpombo.onrender.com/api"
+    baseURL: import.meta.env.VITE_API_URL || (import.meta.env.DEV ? "http://localhost:3001/api" : "https://hdmpombo.onrender.com/api")
 });
 
 clienteAxios.interceptors.request.use(

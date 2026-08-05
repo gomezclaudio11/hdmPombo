@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import clienteAxios from "../api/axiosConfig";
 import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
@@ -13,8 +13,8 @@ const Login = () => {
         setError(null);
         
         try {
-            //1. peticion al backEnd en Render
-            const response = await axios.post("https://hdmpombo.onrender.com/api/auth/login", {
+            //1. peticion al backEnd
+            const response = await clienteAxios.post("/auth/login", {
                 email,
                 password
             });
