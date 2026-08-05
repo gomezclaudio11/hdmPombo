@@ -10,6 +10,8 @@ import SectorDetailDashboard from './components/SectorDetailDashboard';
 import Login from './components/Login';
 import FormularioObservacion from './components/FormularioObservacion';
 import FormResgister from "./components/FormResgister"
+import ForgotPassword from './components/ForgotPassword';
+import ResetPassword from './components/ResetPassword';
 import { jwtDecode } from 'jwt-decode';
 
 //1. componente interno Dashboard
@@ -82,6 +84,8 @@ function App() {
         {/* Rutas del Publicas sin token*/}
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<FormResgister />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/reset-password' element={<ResetPassword />} />
 
         {/** Ruta del Dashboard protegidas */}
         <Route
