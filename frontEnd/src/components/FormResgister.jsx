@@ -39,8 +39,9 @@ const RegistroUsuario = () => {
                 navigate('/login');
             }, 2000);
         } catch (error) {
+            const errorData = error.response?.data;
             setMensaje({ 
-                texto: error.response?.data?.message || "Error al registrar usuario", 
+                texto: errorData?.details || errorData?.message || "Error al registrar usuario", 
                 tipo: "error" 
             });
         }
