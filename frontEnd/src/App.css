@@ -1,88 +1,204 @@
-/* Estilos Básicos para la Tarjeta de Cumplimiento */
+/* 🏥 Sistema de Diseño - Hospital Pombo / Higiene Hospitalaria */
 
-.compliance-card {
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    color: white; /* Color de texto por defecto */
+:root {
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  
+  --primary-dark: #0A192F;
+  --primary: #1E3A8A;
+  --primary-light: #3B82F6;
+  --accent: #06B6D4;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  
+  --bg-app: #F8FAFC;
+  --card-bg: #FFFFFF;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
+  --border-color: #E2E8F0;
+  
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.compliance-high {
-    background-color: #28a745; /* Verde para buen cumplimiento */
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
-.compliance-medium {
-    background-color: #ffc107; /* Amarillo para cumplimiento medio */
-    color: #333; /* Texto oscuro para contraste */
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-.compliance-low {
-    background-color: #dc3545; /* Rojo para bajo cumplimiento */
-}
-
-.percentage-display {
-    font-size: 4em;
-    font-weight: bold;
-    margin: 10px 0;
-}
-
-.subtitle {
-    font-size: 1em;
-    opacity: 0.8;
-}
-
-/* Estilos de Layout General */
+/* Layout General */
 .dashboard-layout {
-    background-color: #f4f7f6;
   min-height: 100vh;
-  padding: 20px;
-}
-
-.header {
-    text-align: center;
-    padding: 20px;
-    border-bottom: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-app);
 }
 
 .main-content {
+  flex: 1;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 32px 24px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 28px;
 }
 
-.placeholder-chart {
-    border: 1px dashed #ccc;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #f9f9f9;
+/* Header */
+.header {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
+/* Tarjeta de Cumplimiento Global (Hero KPI) */
+.compliance-card {
+  background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+  color: white;
+  padding: 32px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.compliance-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.compliance-card h2 {
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #93C5FD;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.percentage-display {
+  font-size: 4.5rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin: 8px 0;
+  font-family: var(--font-sans);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #CBD5E1;
+  margin: 0;
+  font-weight: 500;
+}
+
+.compliance-high {
+  border-left: 6px solid var(--success);
+}
+
+.compliance-medium {
+  border-left: 6px solid var(--warning);
+}
+
+.compliance-low {
+  border-left: 6px solid var(--danger);
+}
+
+/* Grillas y Contenedores de Gráficos */
 .charts-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(520px, 1fr));
+  gap: 24px;
 }
 
 .chart-container {
-  min-height: 450px;
-  width: 100%;
- }
-
-.placeholder-card {
-  background: white;
-  border: 2px dashed #ccc;
-  border-radius: 8px;
+  background: var(--card-bg);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border-color);
+  transition: var(--transition);
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #888;
+  flex-direction: column;
+  height: 450px;
+}
+
+.chart-container:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: #CBD5E1;
 }
 
 .full-width-chart {
   width: 100%;
-  margin-top: 20px;
 }
 
+/* Botones y Controles */
+button, select, input {
+  font-family: var(--font-sans);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  .main-content {
+    padding: 16px;
+  }
+  .percentage-display {
+    font-size: 3.5rem;
+  }
+}

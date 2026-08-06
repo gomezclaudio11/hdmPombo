@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -11,6 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { useFilters } from "../context/FilterContext";
+import clienteAxios from '../api/axiosConfig';
 
 ChartJS.register(
   CategoryScale,
@@ -20,13 +20,9 @@ ChartJS.register(
   Tooltip,
   Legend
 );
-import clienteAxios from '../api/axiosConfig';
-
-// La URL base de mi API de Express
-//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
 function ProfessionalRankingChart() {
-    const {mes, anio} = useFilters();
+    const { mes, anio } = useFilters();
     const [chartData, setChartData] = useState(null); 
     const [loading, setLoading] = useState(true);
 
@@ -37,64 +33,83 @@ function ProfessionalRankingChart() {
                 const data = response.data;
 
                 setChartData({
-                    labels: data.map(item => item.profesional), // "Enfermeria", "Medico", etc.
+                    labels: data.map(item => item.profesional),
                     datasets: [
                         {
-                        label: '% de Cumplimiento',
-                        data: data.map(item => item.porcentajeCumplimiento),
-                        backgroundColor: 'rgba(75, 192, 192, 0.6)', // Un color verde agua/teal
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1,
+                            label: '% de Cumplimiento',
+                            data: data.map(item => item.porcentajeCumplimiento),
+                            backgroundColor: 'rgba(6, 182, 212, 0.75)',
+                            borderColor: 'rgba(6, 182, 212, 1)',
+                            borderWidth: 1.5,
+                            borderRadius: 6,
                         },
                     ],
                 });
-                setLoading(false)
-            }  catch (error) {
+                setLoading(false);
+            } catch (error) {
                 console.error("Error cargando ranking profesional", error);
-                setLoading(false)
+                setLoading(false);
             } 
-            };
-            fetchProfessionalData();
-        }, [mes, anio]);
+        };
+        fetchProfessionalData();
+    }, [mes, anio]);
 
-const options = {
-    indexAxis: 'y', // <--- ESTO LO HACE HORIZONTAL
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: { display: false }, // Ocultamos leyenda para que sea más limpio
-      title: {
-        display: true,
-        text: 'Ranking de Cumplimiento por Rol Profesional (%)',
-      },
-    },
-    scales: {
-      x: {
-        beginAtZero: true,
-        max: 100,
-      },
-      y: {
-        ticks: {
-          autoSkip: false,
-          maxRotation: 0,
-          minRotation: 0,
-          font: {
-            size: 11,
-          }
-        }
-      }
-    },
-  };
+    const options = {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false },
+            title: {
+                display: true,
+                text: 'Ranking de Cumplimiento por Rol Profesional (%)',
+                font: {
+                  size: 15,
+                  family: "'Plus Jakarta Sans', sans-serif",
+                  weight: '700'
+                },
+                color: '#0F172A',
+                padding: { bottom: 20 }
+            },
+            tooltip: {
+                backgroundColor: '#0F172A',
+                titleFont: { size: 13, family: "'Plus Jakarta Sans', sans-serif" },
+                bodyFont: { size: 13, family: "'Plus Jakarta Sans', sans-serif" },
+                padding: 12,
+                cornerRadius: 8,
+            }
+        },
+        scales: {
+            x: {
+                beginAtZero: true,
+                max: 100,
+                grid: { color: '#F1F5F9' },
+                ticks: { font: { family: "'Plus Jakarta Sans', sans-serif" } }
+            },
+            y: {
+                grid: { display: false },
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 0,
+                    minRotation: 0,
+                    font: {
+                      size: 11,
+                      family: "'Plus Jakarta Sans', sans-serif",
+                      weight: '500'
+                    }
+                }
+            }
+        },
+    };
 
-  if (loading) return <div>Cargando ranking...</div>;
-  if (!chartData) return <div>Error al cargar datos.</div>;
+    if (loading) return <div className="chart-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p>Cargando ranking profesional...</p></div>;
+    if (!chartData) return <div className="chart-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}><p>No hay datos disponibles.</p></div>;
 
-  return (
-    <div style={{ height: '400px', backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-      <Bar options={options} data={chartData} />
-    </div>
-  )
-};
+    return (
+        <div className="chart-container">
+            <Bar options={options} data={chartData} />
+        </div>
+    );
+}
 
 export default ProfessionalRankingChart;
-

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import './App.css'; // Mantenemos el CSS base
+import './App.css';
 import Header from './components/Header';
 import GlobalComplianceCard from './components/GlobalComplianceCard';
 import SectorComplianceChart from './components/SectorComplianceChart';
@@ -9,30 +9,24 @@ import MomentComplianceChart from './components/MomentComplianceChart';
 import SectorDetailDashboard from './components/SectorDetailDashboard';
 import Login from './components/Login';
 import FormularioObservacion from './components/FormularioObservacion';
-import FormResgister from "./components/FormResgister"
+import FormResgister from "./components/FormResgister";
 import ForgotPassword from './components/ForgotPassword';
 import ResetPassword from './components/ResetPassword';
 import { jwtDecode } from 'jwt-decode';
 
-//1. componente interno Dashboard
 const Dashboard = () => {
-  return(
-      <div className="dashboard-layout">
+  return (
+    <div className="dashboard-layout">
       <Header />      
-    <main className="main-content">
-       
-     {/*Fila superior: Resumen Global*/} 
-       
+      <main className="main-content">
         <section className="kpi-section">
-           <GlobalComplianceCard />
+          <GlobalComplianceCard />
         </section>
-     
-     {/* Fila de Gráficos */}
         <section className="charts-grid">
           <div className="chart-container">
             <SectorComplianceChart />
           </div>
-         <div className="chart-container">
+          <div className="chart-container">
             <ProfessionalRankingChart />
           </div>
         </section>
@@ -44,12 +38,11 @@ const Dashboard = () => {
         <section className="full-width-chart">
           <SectorDetailDashboard />
         </section>
-        </main>
-        </div>
-  )
-}
+      </main>
+    </div>
+  );
+};
 
-// Componente para proteger rutas (Evita que entren sin Login)
 const RutaProtegida = ({ children }) => {
     const token = localStorage.getItem('token');
     if (!token) {
@@ -58,36 +51,34 @@ const RutaProtegida = ({ children }) => {
     return children;
 };
 
-// Componente para proteger rutas (Evita que entren sin Login)
 const RutaPorRol = ({ children, rolPermitido }) => {
     const token = localStorage.getItem('token');
 
     if (!token) return <Navigate to="/login" />;
 
+    let decoded = null;
     try {
-      const decoded = jwtDecode(token);
-      //si el usuario no tiene el rol necesario, lo mandamos al dashboard solo lectura
-      if (rolPermitido && decoded.role !== rolPermitido && decoded.role !== "admin") {
-        return <Navigate to= "/dashboard" />
-      }
-      return children
-    } catch (error) {
-      return <Navigate to= "/login" />
+      decoded = jwtDecode(token);
+    } catch {
+      return <Navigate to="/login" />;
     }
+
+    if (rolPermitido && decoded.role !== rolPermitido && decoded.role !== "admin") {
+      return <Navigate to="/dashboard" />;
+    }
+
+    return children;
 };
 
 function App() {
-
   return (
     <Router>
       <Routes>
-        {/* Rutas del Publicas sin token*/}
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<FormResgister />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
 
-        {/** Ruta del Dashboard protegidas */}
         <Route
           path='/dashboard'
           element={
@@ -95,16 +86,14 @@ function App() {
               <Dashboard />
             </RutaProtegida>
           }
-          />
+        />
 
-          {/* El Formulario SOLO lo ven Observadores (y el Admin por ser superior) */}
         <Route path='/cargar-datos' element={
             <RutaPorRol rolPermitido="observer">
                 <FormularioObservacion />
             </RutaPorRol>
         } />
         
-        {/* Si alguien entra a la raíz "/", redirigir al dashboard (que lo mandará al login si no hay token) */}
         <Route path="*" element={<Navigate to="/dashboard" />} />
       </Routes>
     </Router>

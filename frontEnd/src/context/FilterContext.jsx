@@ -1,9 +1,7 @@
 import React, { createContext, useState, useContext } from "react";
 
-// creamos espacio para los datos
 const FilterContext = createContext();
 
-// creamos el proveedor (envuelve la app)
 export const FilterProvider = ({ children }) => {
     const [mes, setMes] = useState("");
     const [anio, setAnio] = useState("2025");
@@ -15,11 +13,11 @@ export const FilterProvider = ({ children }) => {
     );
 };
 
-//Hook personalizado para usar el contexto facilmente
+// eslint-disable-next-line react-refresh/only-export-components
 export const useFilters = () => {
     const context = useContext(FilterContext);
     if(!context) {
-        throw new Error("useFilters debe usarse dentro de un FilterProvider")
+        throw new Error("useFilters debe usarse dentro de un FilterProvider");
     }
     return context;
-}
+};

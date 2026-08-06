@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Bar } from 'react-chartjs-2';
 import clienteAxios from '../api/axiosConfig';
 import { useFilters } from '../context/FilterContext';
-//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
 
-// Lista de sectores 
 const SECTORES = ["UTI ADULTO", "GUARDIA", "4to piso", "5to piso", "6to piso", "7mo piso"];
 
 function SectorDetailDashboard() {
-  const {mes, anio} = useFilters();
+  const { mes, anio } = useFilters();
   const [sectorSeleccionado, setSectorSeleccionado] = useState(SECTORES[0]);
   const [chartData, setChartData] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,8 +15,6 @@ function SectorDetailDashboard() {
     const fetchDetalleData = async () => {
       setLoading(true);
       try {
-        // 1. Usamos la URL dinámica que creamos en el Back-End
-        // encodeURIComponent es vital porque nombres como "UTI POMBO" tienen espacios
         const response = await clienteAxios.get(`/observaciones/stats-sector-detalle/${encodeURIComponent(sectorSeleccionado)}?anio=${anio}${mes ? `&mes=${mes}` : ''}`);
         const data = response.data;
 
@@ -29,9 +24,10 @@ function SectorDetailDashboard() {
             {
               label: `% Cumplimiento en ${sectorSeleccionado}`,
               data: data.map(item => item.porcentajeCumplimiento),
-              backgroundColor: 'rgba(153, 102, 255, 0.6)', // Un color violeta para diferenciar
-              borderColor: 'rgba(153, 102, 255, 1)',
-              borderWidth: 1,
+              backgroundColor: 'rgba(139, 92, 246, 0.75)', // Violet
+              borderColor: 'rgba(139, 92, 246, 1)',
+              borderWidth: 1.5,
+              borderRadius: 6,
             },
           ],
         });
@@ -43,43 +39,79 @@ function SectorDetailDashboard() {
     };
 
     fetchDetalleData();
-  }, [sectorSeleccionado, mes, anio]); // <-- El efecto se dispara cada vez que cambias el sector
+  }, [sectorSeleccionado, mes, anio]);
 
   const options = {
     indexAxis: 'y',
     responsive: true,
     maintainAspectRatio: false,
-    scales: { x: { beginAtZero: true, max: 100 } },
+    scales: { 
+      x: { 
+        beginAtZero: true, 
+        max: 100,
+        grid: { color: '#F1F5F9' },
+        ticks: { font: { family: "'Plus Jakarta Sans', sans-serif" } }
+      },
+      y: {
+        grid: { display: false },
+        ticks: { font: { family: "'Plus Jakarta Sans', sans-serif", weight: '500' } }
+      }
+    },
     plugins: {
-        legend: { display: false }
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0F172A',
+          titleFont: { size: 13, family: "'Plus Jakarta Sans', sans-serif" },
+          bodyFont: { size: 13, family: "'Plus Jakarta Sans', sans-serif" },
+          padding: 12,
+          cornerRadius: 8,
+        }
     }
   };
 
   return (
-    <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginTop: '20px' }}>
-      
-      <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '15px' }}>
-        <h3 style={{ margin: 0 }}>Análisis Detallado por Sector:</h3>
+    <div className="chart-container" style={{ height: '480px' }}>
+      <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '15px' }}>
+        <h3 style={{ margin: 0, fontSize: '1.15rem', fontWeight: 700, color: 'var(--text-main)' }}>
+          Análisis Detallado por Sector y Personal
+        </h3>
         
-        {/* SELECTOR DINÁMICO */}
-        <select 
-          value={sectorSeleccionado} 
-          onChange={(e) => setSectorSeleccionado(e.target.value)}
-          style={{ padding: '8px', borderRadius: '4px', border: '1px solid #ccc', fontSize: '16px' }}
-        >
-          {SECTORES.map(sec => (
-            <option key={sec} value={sec}>{sec}</option>
-          ))}
-        </select>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <label htmlFor="sector-select" style={{ fontWeight: 600, fontSize: '0.9rem', color: 'var(--text-muted)', margin: 0 }}>Sector:</label>
+          <select 
+            id="sector-select"
+            value={sectorSeleccionado} 
+            onChange={(e) => setSectorSeleccionado(e.target.value)}
+            style={{ 
+              padding: '8px 12px', 
+              borderRadius: '8px', 
+              border: '1px solid var(--border-color)', 
+              fontSize: '0.95rem',
+              backgroundColor: 'white',
+              color: 'var(--text-main)',
+              fontWeight: '600',
+              cursor: 'pointer',
+              outline: 'none'
+            }}
+          >
+            {SECTORES.map(sec => (
+              <option key={sec} value={sec}>{sec}</option>
+            ))}
+          </select>
+        </div>
       </div>
 
-      <div style={{ height: '400px' }}>
+      <div style={{ height: '360px', position: 'relative' }}>
         {loading ? (
-          <p>Cargando datos de {sectorSeleccionado}...</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)' }}>
+            Cargando datos de {sectorSeleccionado}...
+          </div>
         ) : chartData ? (
           <Bar options={options} data={chartData} />
         ) : (
-          <p>No hay datos para este sector.</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%', color: 'var(--text-muted)' }}>
+            No hay datos disponibles para este sector.
+          </div>
         )}
       </div>
     </div>
@@ -87,16 +119,3 @@ function SectorDetailDashboard() {
 }
 
 export default SectorDetailDashboard;
-/**
- encodeURIComponent: Como los sectores tienen espacios (ej: "UTI adulto"), 
- el navegador no puede enviarlos así en la URL. Esta función convierte el 
- espacio en %20 para que el Back-End lo reciba correctamente.
-
-Estado Dependiente (useEffect con [sectorSeleccionado]): Este es el "corazón"
- de la interactividad. Le decimos a React: "Cada vez que el usuario cambie el
-  valor del select, vuelve a ejecutar la petición a la API".
-
-Filtrado en el Servidor: En lugar de traer todos los datos y filtrar en React,
- le pedimos al Back-End (MongoDB) que haga el trabajo pesado. Esto es mucho 
- más eficiente cuando tienes miles de registros
- */

@@ -1,50 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import clienteAxios from '../api/axiosConfig';
-import { jwtDecode } from "jwt-decode"
-import { Form } from 'react-router-dom';
-import "./Formulario.css"
+import { jwtDecode } from "jwt-decode";
+import "./Formulario.css";
 import { useNavigate } from 'react-router-dom';
 import { SECTORES, TURNOS, ROLES_PROFESIONALES, MOMENTOS, ACCIONES } from '../utils/constants';
 
 const FormularioObservacion = () => {
     const navigate = useNavigate();
-    const [formData, setFormData] = useState({
-        observador: "",
-        sector: '',
-        turno: "",
-        profesional: '',
-        momento: '',
-        accion: ""
+    const [formData, setFormData] = useState(() => {
+        const token = localStorage.getItem("token");
+        let nombre = "Usuario";
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                nombre = decoded.nombre || "Usuario";
+            } catch {
+                // ignore
+            }
+        }
+        return {
+            observador: nombre,
+            sector: '',
+            turno: '',
+            profesional: '',
+            momento: '',
+            accion: ''
+        };
     });
 
     const [mensaje, setMensaje] = useState({ texto: '', tipo: '' });
 
-    // Al cargar el componente extraemos el nombre del token
-    useEffect (() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            try {
-                const decoded = jwtDecode(token);
-                setFormData(prev => ({ ...prev, observador: decoded.nombre || "Ususario"}))
-            } catch (error) {
-                console.error("Error al decodificar el token", error)
-            }
-        }
-    }, [])
-
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value })
-    }
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Gracias al interceptor, NO necesitamos pasar el token aquí
             await clienteAxios.post('/observaciones', formData);
-            setMensaje({ texto: "✅ Registro guardado con éxito", tipo: "success" })
-            //LIMPIAMOS EL FORMULARIO
+            setMensaje({ texto: "✅ Registro guardado con éxito", tipo: "success" });
             setFormData({ 
-                observador: formData.observador, // Mantenemos el nombre del observador
+                observador: formData.observador,
                 sector: '',
                 turno: '',
                 profesional: '',
@@ -52,10 +48,10 @@ const FormularioObservacion = () => {
                 accion: ""
             }); 
             setTimeout(() => {
-                navigate("/dashboard")
+                navigate("/dashboard");
             }, 1500);
-            } catch (error) {
-            setMensaje({ texto: "Error al guardar", tipo: "error" })
+        } catch {
+            setMensaje({ texto: "Error al guardar", tipo: "error" });
         }
     };
 
@@ -63,18 +59,18 @@ const FormularioObservacion = () => {
        <div className="form-container">
             <form onSubmit={handleSubmit} className="hdm-form">
                 <header className="form-header">
-                    <h2>Higuiene de Manos POMBO</h2>
+                    <h2>Higiene de Manos POMBO</h2>
                     <p>Carga de Oportunidades</p>
                 </header>
 
                 {mensaje.texto && (
-                    <div className={`alert ${mensaje.tipo}`}>{mensaje.texto}
-                       {mensaje.tipo === 'success' ? '✅ ' : '❌ '}
+                    <div className={`alert ${mensaje.tipo}`}>
                         {mensaje.texto} 
-                    </div>)}
+                    </div>
+                )}
 
                 <div className="form-section">
-                    <label><i className="fas fa-user-check"></i>Observador Logueado:</label>
+                    <label>Observador Logueado:</label>
                     <input 
                         type="text" 
                         name="observador" 
@@ -82,25 +78,27 @@ const FormularioObservacion = () => {
                         readOnly 
                         className="input-readonly"
                     />
-                <div className="row">
-                    <div className="col">
-                    <label>Sector *</label>
-                    <select name="sector" value={formData.sector} onChange={handleChange} required>
-                        <option value="">Seleccione Sector...</option>
-                        {SECTORES.map(sector => (
-                            <option key={sector} value={sector}>{sector}</option>
-                        ))}
-                    </select>
-                </div>
-                    <div className="col"></div>
-                    <label>Turno *</label>
-                    <select name="turno" value={formData.turno} onChange={handleChange} required>
-                        <option value="">Seleccione Turno...</option>
-                        {TURNOS.map(turno => (
-                            <option key={turno} value={turno}>{turno}</option>
-                        ))}
-                    </select>
-                </div>
+                    
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                        <div>
+                            <label>Sector *</label>
+                            <select name="sector" value={formData.sector} onChange={handleChange} required>
+                                <option value="">Seleccione Sector...</option>
+                                {SECTORES.map(sector => (
+                                    <option key={sector} value={sector}>{sector}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Turno *</label>
+                            <select name="turno" value={formData.turno} onChange={handleChange} required>
+                                <option value="">Seleccione Turno...</option>
+                                {TURNOS.map(turno => (
+                                    <option key={turno} value={turno}>{turno}</option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                 </div>
             
                 <div className="form-section highlight">
@@ -112,7 +110,7 @@ const FormularioObservacion = () => {
                         ))}
                     </select>
                 
-                <label>Momento que observa *</label>
+                    <label style={{ marginTop: '20px' }}>Momento que observa *</label>
                     <div className="options-grid">
                         {MOMENTOS.map(m => (
                             <label key={m} className="radio-label">
@@ -122,12 +120,12 @@ const FormularioObservacion = () => {
                                 checked={formData.momento === m} 
                                 onChange={handleChange} 
                                 required />
-                                 {m}
+                                 <span>{m}</span>
                             </label>
                         ))}
                     </div>
 
-                    <label style={{marginTop: '20px'}}>Acción que realizó *</label>
+                    <label style={{ marginTop: '20px' }}>Acción que realizó *</label>
                     <div className="options-grid">
                         {ACCIONES.map(a => (
                             <label key={a} className={`radio-label ${a === 'Ninguna' ? 'danger-hover' : ''}`}>
@@ -143,8 +141,9 @@ const FormularioObservacion = () => {
                         ))}
                     </div>
                 </div>
+
                 <button type="submit" className="btn-submit">
-                    <i className="fas fa-save"></i>Registrar Oportunidad
+                    Registrar Oportunidad
                 </button>
             </form>
         </div>

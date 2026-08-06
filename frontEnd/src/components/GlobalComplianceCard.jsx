@@ -1,34 +1,19 @@
 import React, { useState, useEffect } from 'react';
-//es una librería de JavaScript que sirve para hacer peticiones 
-// HTTP desde la aplicación (el Frontend) hacia un servidor (el Backend).
 import clienteAxios from '../api/axiosConfig';
 import { useFilters } from '../context/FilterContext';
 
-// La URL base de tu API de Express
-//const API_URL = 'https://hdmpombo.onrender.com/api/observaciones';
-
-/**
- * Componente Tarjeta de Cumplimiento Global
- * Fetches data from /api/observaciones/global and displays the result.
- */
 function GlobalComplianceCard() {
-    const {mes, anio} = useFilters();
-    const [data, setData] = useState(null);// cuando la aplicacion arranca no hay datos
-    //xq la peticion todavia no se hizo al poner null decimos todavia no tengo info
+    const { mes, anio } = useFilters();
+    const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // Función asíncrona para cargar los datos
         const fetchData = async () => {
             try {
-                // Realizar la petición al endpoint de cumplimiento global
-                const response = await clienteAxios.get(`/observaciones/global-compliance?anio=${anio}${mes ? `&mes=${mes}` : ''}`); //ordenador ternario / query parameter
-                
-                // Guardar solo los datos relevantes (porcentaje, total, etc.)
+                const response = await clienteAxios.get(`/observaciones/global-compliance?anio=${anio}${mes ? `&mes=${mes}` : ''}`);
                 setData(response.data);
-                
-                setLoading(false); // La carga ha terminado
+                setLoading(false);
             } catch (err) {
                 console.error("Error al obtener datos globales:", err);
                 setError("No se pudo conectar con la API o la base de datos.");
@@ -40,33 +25,39 @@ function GlobalComplianceCard() {
     }, [mes, anio]); 
 
     if (loading) {
-        return <div className="card">Cargando datos...</div>;
+        return (
+            <div className="compliance-card" style={{ minHeight: '180px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <div className="subtitle">Calculando cumplimiento global...</div>
+            </div>
+        );
     }
 
     if (error) {
-        return <div className="card error">Error: {error}</div>;
+        return (
+            <div className="compliance-card compliance-low" style={{ minHeight: '180px' }}>
+                <h2>Cumplimiento Global</h2>
+                <div style={{ fontSize: '1.1rem', margin: '15px 0', color: '#FEE2E2' }}>{error}</div>
+            </div>
+        );
     }
 
-    //  Usamos valores por defecto para que NUNCA sea undefined
     const porcentajeCumplimiento = data?.porcentajeCumplimiento || 0;
     const totalObservaciones = data?.totalObservaciones || 0;
     
-    // Determinar el color de la tarjeta basado en el cumplimiento (Opcional, pero bueno para KPIs)
     const cardClass = porcentajeCumplimiento >= 80 ? 'compliance-high' : 
                      porcentajeCumplimiento >= 60 ? 'compliance-medium' : 
                      'compliance-low';
 
     return (
         <div className={`compliance-card ${cardClass}`}>
-            <h2>Cumplimiento Global</h2>
+            <h2>Cumplimiento Global de Higiene</h2>
             <div className="percentage-display">
                 {Number(porcentajeCumplimiento).toFixed(2)}%
             </div>
             <p className="subtitle">
-                Basado en {totalObservaciones} observaciones.
+                Basado en <strong>{totalObservaciones}</strong> observaciones registradas según los estándares OMS.
             </p>
         </div>
-        
     );
 }
 
